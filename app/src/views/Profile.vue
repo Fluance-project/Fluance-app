@@ -10,6 +10,7 @@
       <p>Email: {{ user.email }}</p>
       <p>ID: {{ user.id }}</p>
       </a-col>
+      
     </a-row>
 
   </a-card>

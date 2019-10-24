@@ -25,8 +25,6 @@ export default class UserApi {
     }
 
     login(data) {
-         // eslint-disable-next-line
-        console.log(data)
         return new Promise((resolve, reject) => {
             axios.post(this.dbUrl + '/login', {
                 email: data.email,

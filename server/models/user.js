@@ -25,21 +25,42 @@ const UserSchema = new mongoose.Schema({
 }, {toJSON: {virtuals: true}});
 
 
-UserSchema.virtual('avis', {
-    ref: 'Avis',
+UserSchema.virtual('task', {
+    ref: 'Task',
     localField: '_id',
     foreignField: 'userId',
-    justOne: false // set true for one-to-one relationship
+    justOne: false 
+});
+
+UserSchema.virtual('board', {
+    ref: 'Board',
+    localField: '_id',
+    foreignField: 'userId',
+    justOne: true 
+});
+
+UserSchema.virtual('analyse', {
+    ref: 'Analyse',
+    localField: '_id',
+    foreignField: 'userId',
+    justOne: false 
+});
+
+UserSchema.virtual('datastories', {
+    ref: 'Datastory',
+    localField: '_id',
+    foreignField: 'userId',
+    justOne: false 
 });
 
 UserSchema.pre('save', function (next) {
     bcrypt.genSalt(10).then(salt => {
         bcrypt.hash(this.password, salt).then(hash => {
             this.password = hash;
+            console.log(`=> [Password hashed] User : ${this.id}`);
             next();
         })
     });
-    console.log(`Saving ${this.firstname} ...`);
 });
 
 UserSchema.methods = {

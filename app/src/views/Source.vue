@@ -1,10 +1,10 @@
 <template>
-    <div></div>
+   <a-empty style="margin-top: 42px" description="Service bientôt disponible" />
 </template>
 
 <script>
 export default {
-  name: "Analysis",
+  name: "New Source",
   props: {
     msg: String
   },

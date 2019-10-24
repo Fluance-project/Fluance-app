@@ -1,6 +1,5 @@
 const express = require("express");
 const User = require("../models/user");
-const Avis = require("../models/avis")
 
 const router = express.Router();
 
@@ -28,7 +27,7 @@ router.put("/:id", (req, res) => {
     user.populate(res.body);
     user.save();
 });
-
+/*
 // user/1/avis
 router.get("/:id/avis/", (req, res) => {
     const query = User.findById(req.params.id).populate('avis');
@@ -50,5 +49,6 @@ router.post("/:id/avis/", (req, res) => {
             }
         })
 });
+*/
 
 module.exports = router;

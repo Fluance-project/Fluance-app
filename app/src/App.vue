@@ -2,7 +2,7 @@
   <div id="app">
     <a-layout id="demo-site" style="min-height: 100vh">
       <a-layout-sider collapsible v-model="collapsed">
-        <Logo :collapsed="collapsed" />
+       <router-link :to="{path : '/'}"> <Logo :collapsed="collapsed" /></router-link>
         <a-menu theme="dark" :defaultSelectedKeys="['1']" mode="inline" v-if="isLoggedOn()">
           <a-menu-item key="1">
             <router-link :to="{path : '/'}">
@@ -10,28 +10,34 @@
               <span v-if="!collapsed">Tableau de bord</span>
             </router-link>
           </a-menu-item>
-          <a-sub-menu key="sub1">
+           <a-sub-menu key="sub1">
             <span slot="title">
-              <a-icon type="fund" />
-              <span v-if="!collapsed">Datastories</span>
+              <a-icon type="thunderbolt" />
+              <span v-if="!collapsed">Temps réel</span>
             </span>
-            <a-menu-item key="3">
-              <router-link :to="{path : '/datastories'}">Mes datastories</router-link>
+            <a-menu-item key="6">
+              <router-link :to="{path : '/liveboards'}">Mes moniteurs</router-link>
             </a-menu-item>
-            <a-menu-item key="4">
-              <router-link :to="{path : '/new-datastory'}">Créer une story</router-link>
+            <a-menu-item key="7">
+              <router-link :to="{path : '/new-liveboards'}">Ajouter un moniteur</router-link>
+            </a-menu-item>
+            <a-menu-item key="8">
+              <router-link :to="{path : '/new-source'}">Sources</router-link>
             </a-menu-item>
           </a-sub-menu>
           <a-sub-menu key="sub2">
             <span slot="title">
-              <a-icon type="sliders" />
-              <span v-if="!collapsed">Analyses</span>
+              <a-icon type="bar-chart" />
+              <span v-if="!collapsed">Rapports</span>
             </span>
-            <a-menu-item key="6">
-              <router-link :to="{path : '/analysis'}">Mes analyses</router-link>
+            <a-menu-item key="3">
+              <router-link :to="{path : '/datastories'}">Mes rapports</router-link>
             </a-menu-item>
-            <a-menu-item key="8">
-              <router-link :to="{path : '/new-analysis'}">Analyser</router-link>
+            <a-menu-item key="4">
+              <router-link :to="{path : '/new-datastory'}">Créer un rapports</router-link>
+            </a-menu-item>
+             <a-menu-item key="5">
+              <router-link :to="{path : '/new-analysis'}">Importer & analyser</router-link>
             </a-menu-item>
           </a-sub-menu>
           <a-menu-item key="9">
@@ -45,33 +51,26 @@
             type="flex"
             justify="center"
           >
-            <a-button type="primary" v-if="!collapsed" @click="showModal">Tutoriel</a-button>
-            <a-modal
-              title="Bienvenue sur Datahourse"
-              cancelText="Ne plus me rappeler"
-              okText="Créer une data story"
-              v-model="visible"
-              @ok="handleOk"
-              :okButtonProps="{ on: {click: () => {this.$router.push({ path: '/new-datastory'})}} }"
-              :cancelButtonProps="{ on: {click: () => { this.closeModal() }} }"
-            >
-              <h3>Qu'es-ce que datahouse ?</h3>
-              <p>Data house est votre outil de statistiques analytiques en ligne qui aide à obtenir de nouvelles idées à partir des diverses données de l'entreprise. Il vous permet de créer et de partager facilement des rapports et des tableaux de bord puissants et ad hoc en quelques minutes, sans aide informatique. Les données peuvent être importées à partir de fichiers, de flux web, d'applications commerciales populaires, de bases de données cloud et locales, de stockage en ligne, etc.</p>
-              <h3>En quoi c'est pratique ?</h3>
-              <p>Construisez vous même des data stories pertinentes pour vos dashboard d'entreprise. Explorées vos données à partir de vos propres sources parmis nos nombreux connecteurs (excel, SQL). Appliquez vous même des algorithmes et visualisez les resultats.</p>
-              <h3>Par où commencer ?</h3>
-              <p>Commencez par créer votre première Datastory en selectionnant sur "Datastories > Nouvelle datastory" dans le menu.</p>
-            </a-modal>
           </a-row>
         </a-menu>
       </a-layout-sider>
       <a-layout>
-        <a-layout-header v-if="isLoggedOn()"  style="background: #fff; padding: 0 16px">
+        <a-layout-header v-if="isLoggedOn()" style="background: #fff; padding: 0 16px">
           <a-row type="flex" justify="space-between">
-            <h1>{{ route }}</h1>
-            <router-link :to="{path : '/profile'}">
-             <a-avatar icon="user" />
-            </router-link>
+            <a-breadcrumb style="margin: 22px 0 0 0">
+              <a-breadcrumb-item>
+                <a-icon type="home" />
+              </a-breadcrumb-item>
+              <a-breadcrumb-item>{{ route }}</a-breadcrumb-item>
+            </a-breadcrumb>
+            <span>
+              <a-badge dot style="margin-right: 16px">
+                <a-icon type="notification" />
+              </a-badge>
+              <router-link :to="{path : '/profile'}">
+                <a-avatar icon="user" />
+              </router-link>
+            </span>
           </a-row>
         </a-layout-header>
         <a-layout-content
@@ -88,7 +87,7 @@
 
 <script>
 import Logo from "./components/logo";
-import store from './store/store'
+import store from "./store/store";
 
 export default {
   name: "app",
@@ -98,50 +97,33 @@ export default {
   data() {
     return {
       collapsed: null,
-      visible: null,
       route: this.$router.currentRoute.name,
       user: store.getters.auth.userData
     };
   },
-  created:  function() {
-      let modalSession = this.$localStorage.get('welcomeModal')
-      if(modalSession === null || modalSession === true) {
-          this.showModal();
-      }
-      else {
-         this.handleOk();
-      }
-      if(!this.isLoggedOn()){
-        this.collapsed = true;
-      }
-      else{
-        this.collapsed = false
-      }
+  created: function() {
+    if (!this.isLoggedOn()) {
+      this.collapsed = true;
+    } else {
+      this.collapsed = false;
+    }
   },
   watch: {
     $route() {
       this.route = this.$router.currentRoute.name;
-      if(this.$router.currentRoute.name === 'Profile'){
-        document.getElementsByClassName('ant-menu-item-selected')[0].classList.remove('ant-menu-item-selected');
-     }
+      if (this.$router.currentRoute.name === "Profile") {
+        document
+          .getElementsByClassName("ant-menu-item-selected")[0]
+          .classList.remove("ant-menu-item-selected");
+      }
     },
-    store(){
-      this.user = store.getters.auth.userData
+    store() {
+      this.user = store.getters.auth.userData;
     }
   },
   methods: {
-    showModal() {
-      this.visible = true;
-    },
-    handleOk() {
-      this.visible = false;
-    },
-    closeModal(){
-      this.$localStorage.set('welcomeModal', false );
-      this.handleOk();
-    },
-    isLoggedOn(){
-      return store.getters.auth.loggedIn
+    isLoggedOn() {
+      return store.getters.auth.loggedIn;
     }
   }
 };

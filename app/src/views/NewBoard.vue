@@ -1,10 +1,10 @@
 <template>
-    <a-empty style="margin-top: 42px" description="Service bientôt disponible" />
+     <a-empty style="margin-top: 42px" description="Service bientôt disponible" />
 </template>
 
 <script>
 export default {
-  name: "Datastories",
+  name: "Boards",
   props: {
     msg: String
   },

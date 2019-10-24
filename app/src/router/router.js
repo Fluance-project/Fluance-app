@@ -4,8 +4,10 @@ import Router from 'vue-router'
 import Home from '../views/Home.vue'
 import Datastories from '../views/Datastories.vue'
 import NewDatastory from '../views/NewDatastory.vue'
-import Analysis from '../views/Analysis.vue'
+import Boards from '../views/Boards.vue'
+import NewBoard from '../views/NewBoard.vue'
 import NewAnalysis from '../views/NewAnalysis.vue'
+import Source from '../views/Source.vue'
 import Profile from '../views/Profile.vue'
 import Settings from '../views/Settings.vue'
 import Login from '../views/Login.vue'
@@ -34,7 +36,7 @@ const router = new Router({
     },
     {
       path: '/',
-      name: 'Tableau de bord',
+      name: 'Accueil',
       component: Home,
       meta: {
         middleware: [
@@ -63,9 +65,29 @@ const router = new Router({
       },
     },
     {
-      path: '/analysis',
-      name: 'Mes analyses',
-      component: Analysis,
+      path: '/liveboards',
+      name: 'Mes moniteurs en temps réel',
+      component: Boards,
+      meta: {
+        middleware: [
+          auth
+        ]
+      },
+    },
+    {
+      path: '/new-liveboards',
+      name: 'Nouveau moniteur en temps réel',
+      component: NewBoard,
+      meta: {
+        middleware: [
+          auth
+        ]
+      },
+    },
+    {
+      path: '/new-source',
+      name: 'Sources en temps réel',
+      component: Source,
       meta: {
         middleware: [
           auth
@@ -74,7 +96,7 @@ const router = new Router({
     },
     {
       path: '/new-analysis',
-      name: 'Nouvelle analyse',
+      name: 'Analyser un dataset',
       component: NewAnalysis,
       meta: {
         middleware: [

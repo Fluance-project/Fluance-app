@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost', {
     user: "root",
     pass: "root",
-    dbName: "thales",
+    dbName: "datahouse",
     useNewUrlParser: true,
     useUnifiedTopology: true
 });
