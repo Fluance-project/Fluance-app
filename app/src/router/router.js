@@ -11,6 +11,7 @@ import Source from '../views/Source.vue'
 import Profile from '../views/Profile.vue'
 import Settings from '../views/Settings.vue'
 import Login from '../views/Login.vue'
+import Notification from '../views/Notification.vue'
 
 import guest from './middleware/guest'
 import auth from './middleware/auth'
@@ -38,6 +39,16 @@ const router = new Router({
       path: '/',
       name: 'Accueil',
       component: Home,
+      meta: {
+        middleware: [
+          auth
+        ]
+      },
+    },
+    {
+      path: '/activities',
+      name: 'Activités',
+      component: Notification,
       meta: {
         middleware: [
           auth

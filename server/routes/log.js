@@ -1,5 +1,5 @@
 const express = require('express');
-const Task = require('../models/task');
+const Task = require('../models/log');
 const router =  express.Router();
  
 

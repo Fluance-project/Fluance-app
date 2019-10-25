@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const BoardSchema = new mongoose.Schema({
     title: String,
     description: String,
-    score: {
+    sources: {
         type: Number,
         min: 0,
         max: 5
@@ -19,16 +19,16 @@ const BoardSchema = new mongoose.Schema({
     },
 });
 
-AvisSchema.methods.onScreen = function() {
+BoardSchema.methods.onScreen = function() {
     return Date.now() > new Date(`${this.year}-01-01`);
 };
 
-AvisSchema.pre('save', function(next) {
+BoardSchema.pre('save', function(next) {
     console.log(`Saving ${this.title} ...`);
     next();
 });
 
-AvisSchema.post('save', function(avis) {
+BoardSchema.post('save', function(avis) {
     console.log(`${avis.title} saved.`);
 });
 

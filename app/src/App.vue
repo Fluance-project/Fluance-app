@@ -2,7 +2,9 @@
   <div id="app">
     <a-layout id="demo-site" style="min-height: 100vh">
       <a-layout-sider collapsible v-model="collapsed">
-       <router-link :to="{path : '/'}"> <Logo :collapsed="collapsed" /></router-link>
+        <router-link :to="{path : '/'}">
+          <Logo :collapsed="collapsed" />
+        </router-link>
         <a-menu theme="dark" :defaultSelectedKeys="['1']" mode="inline" v-if="isLoggedOn()">
           <a-menu-item key="1">
             <router-link :to="{path : '/'}">
@@ -10,7 +12,7 @@
               <span v-if="!collapsed">Tableau de bord</span>
             </router-link>
           </a-menu-item>
-           <a-sub-menu key="sub1">
+          <a-sub-menu key="sub1">
             <span slot="title">
               <a-icon type="thunderbolt" />
               <span v-if="!collapsed">Temps réel</span>
@@ -36,7 +38,7 @@
             <a-menu-item key="4">
               <router-link :to="{path : '/new-datastory'}">Créer un rapports</router-link>
             </a-menu-item>
-             <a-menu-item key="5">
+            <a-menu-item key="5">
               <router-link :to="{path : '/new-analysis'}">Importer & analyser</router-link>
             </a-menu-item>
           </a-sub-menu>
@@ -50,8 +52,7 @@
             style="position: absolute; width: 100%; bottom: 70px;"
             type="flex"
             justify="center"
-          >
-          </a-row>
+          ></a-row>
         </a-menu>
       </a-layout-sider>
       <a-layout>
@@ -64,9 +65,11 @@
               <a-breadcrumb-item>{{ route }}</a-breadcrumb-item>
             </a-breadcrumb>
             <span>
-              <a-badge dot style="margin-right: 16px">
-                <a-icon type="notification" />
-              </a-badge>
+              <router-link :to="{path : '/activities'}">
+                <a-badge dot style="margin-right: 16px">
+                  <a-icon type="notification" />
+                </a-badge>
+              </router-link>
               <router-link :to="{path : '/profile'}">
                 <a-avatar icon="user" />
               </router-link>
@@ -98,7 +101,7 @@ export default {
     return {
       collapsed: null,
       route: this.$router.currentRoute.name,
-      user: store.getters.auth.userData
+      user: store.getters.auth.userData,
     };
   },
   created: function() {
