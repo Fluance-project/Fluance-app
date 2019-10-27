@@ -29,28 +29,28 @@ UserSchema.virtual('task', {
     ref: 'Task',
     localField: '_id',
     foreignField: 'userId',
-    justOne: false 
+    justOne: false
 });
 
 UserSchema.virtual('board', {
     ref: 'Board',
     localField: '_id',
     foreignField: 'userId',
-    justOne: true 
+    justOne: true
 });
 
 UserSchema.virtual('analyse', {
     ref: 'Analyse',
     localField: '_id',
     foreignField: 'userId',
-    justOne: false 
+    justOne: false
 });
 
 UserSchema.virtual('datastories', {
     ref: 'Datastory',
     localField: '_id',
     foreignField: 'userId',
-    justOne: false 
+    justOne: false
 });
 
 UserSchema.pre('save', function (next) {
@@ -74,7 +74,9 @@ UserSchema.statics = {
         return new Promise((resolve, reject) => {
             User.findOne({'email': email}).then(user => {
                 if (!user) return reject('User not found')
-                bcrypt.compare(password, `${user.password}`).then(res => res ? resolve(user) : reject('Wrong password'));
+                bcrypt.compare(password, `${user.password}`).then(res => {
+                    return res ? resolve(user) : reject('Wrong password');
+                });
             })
         });
     }
