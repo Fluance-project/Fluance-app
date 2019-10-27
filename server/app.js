@@ -5,6 +5,7 @@ const db = require('./lib/db');
 const UserRouter = require('./routes/user');
 const BoardRouter = require('./routes/board');
 const RootRouter = require('./routes/root');
+const SourceRouter = require('./routes/source');
 const verifyToken = require('./middlewares/security');
 var cors = require('cors');
 
@@ -24,6 +25,7 @@ app.use(cors(corsOptions));
 app.use('/', RootRouter);
 app.use('/user', UserRouter);
 app.use('/board', BoardRouter);
+app.use('/source', SourceRouter);
 
 app.use(verifyToken);
 app.use(function (req, res, next) {
