@@ -1,7 +1,9 @@
+import services from '../../services';
+
 export default function guest ({ next, store }){
-    if(store.getters.auth.loggedIn){
+    if(services.user.getPersisted()){
         return next({
-           name: 'Tableau de bord'
+           name: 'Accueil'
         })
     }
    

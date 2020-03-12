@@ -1,10 +1,11 @@
 {
-  "name": "app",
+  "name": "ritmic-server",
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "./node_modules/.bin/nodemon app.js"
+    "start": "./node_modules/.bin/nodemon app.js",
+    "services": "docker-compose up -d"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

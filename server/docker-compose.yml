@@ -10,11 +10,11 @@ version: '3.4'
 services:
   mongodb-preface:
     image: mongo
-    container_name: mongodb-datahouse
+    container_name: mongodb-ritmic
     ports:
     - 27017:27017
     environment:
-    - MONGO_INITDB_DATABASE=datahouse
+    - MONGO_INITDB_DATABASE=ritmic
     - MONGO_INITDB_ROOT_USERNAME=root
     - MONGO_INITDB_ROOT_PASSWORD=root
     volumes:

@@ -1,6 +1,4 @@
-<template>
-  <div>
-   <svg id="logo" v-if="!collapsed" width="233" height="73" viewBox="0 0 233 73" fill="none" xmlns="http://www.w3.org/2000/svg">
+<svg width="233" height="73" viewBox="0 0 233 73" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M66.752 17.584H87.136C91.4293 17.584 94.6587 18.648 96.824 20.776C98.9893 22.8667 100.072 25.816 100.072 29.624C100.072 35 97.832 38.584 93.352 40.376L101.192 56H92.4L85.624 41.664H74.872V56H66.752V17.584ZM86.408 34.888C88.1627 34.888 89.5067 34.4214 90.44 33.488C91.3733 32.5547 91.84 31.2667 91.84 29.624C91.84 27.9814 91.3733 26.712 90.44 25.816C89.5067 24.92 88.1627 24.472 86.408 24.472H74.872V34.888H86.408Z" fill="white"/>
 <path d="M107.334 15.512H115.006V22.792H107.334V15.512ZM107.334 26.544H115.006V56H107.334V26.544Z" fill="white"/>
 <path d="M130.872 56.672C128.109 56.672 126.131 55.9254 124.936 54.432C123.741 52.9387 123.144 51.0534 123.144 48.776V32.816H119.616V26.544H123.312L124.6 18.256H130.816V26.544H135.912V32.816H130.816V47.992C130.816 49.5974 131.619 50.4 133.224 50.4H135.912V55.776C135.277 56 134.475 56.2054 133.504 56.392C132.571 56.5787 131.693 56.672 130.872 56.672Z" fill="white"/>
@@ -11,37 +9,3 @@
 <rect width="52.4296" height="33.4547" rx="4" transform="matrix(5.31263e-08 1 0.811042 -0.584988 9.73511 19.5706)" fill="white" fill-opacity="0.8"/>
 <rect width="52.3246" height="32.9639" rx="4" transform="matrix(5.31263e-08 1 0.811042 -0.584988 0 19.7357)" fill="white"/>
 </svg>
-
-<svg id="logoSmall"  v-else width="47" height="73" viewBox="0 0 47 73" fill="none" xmlns="http://www.w3.org/2000/svg">
-<rect width="52.3246" height="33.3725" rx="4" transform="matrix(5.31263e-08 1 0.811042 -0.584988 19.8683 19.9747)" fill="white" fill-opacity="0.6"/>
-<rect width="52.4296" height="33.4547" rx="4" transform="matrix(5.31263e-08 1 0.811042 -0.584988 9.73511 19.5706)" fill="white" fill-opacity="0.8"/>
-<rect width="52.3246" height="32.9639" rx="4" transform="matrix(5.31263e-08 1 0.811042 -0.584988 0 19.7357)" fill="white"/>
-</svg>
-
-
-  </div>
-</template>
-
-<script>
-export default {
-  name: "Logo",
-  props: {
-    collapsed: Boolean
-  }
-};
-</script>
-
-<style scoped>
-#logo {
-  margin: 16px auto;
-  display: block;
-  width: 127px;
-  height: 26px;
-}
-#logoSmall {
-  margin: 16px auto;
-  display: block;
-  width: 26px;
-  height: 26px;
-}
-</style>

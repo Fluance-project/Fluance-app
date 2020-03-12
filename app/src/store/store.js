@@ -3,25 +3,26 @@ import Vuex from 'vuex'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 
+import user from './modules/user';
+import host from './modules/host';
+
 Vue.use(Vuex)
 Vue.use(VueAxios, axios)
 
 export default new Vuex.Store({
     state: {
-        user: {
-            loggedIn: false,
-            userData: {},
-            token: ''
-        },
+        user: user.state,
+        host: host.state,
     },
     mutations: {
-        SET_USER(state, user) {
-            state.user = user
-        }
+       ...user.mutations,
+       ...host.mutations,
     },
     getters: {
-        auth(state) {
-            return state.user
-        }
+        ...user.getters,
+        ...host.getters,
+    },
+    actions: {
+        ...host.actions,
     }
 })

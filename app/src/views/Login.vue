@@ -73,7 +73,7 @@
 </template>
 
 <script>
-import store from "../store/store";
+import services from "../services";
 
 function hasErrors(fieldsError) {
   return Object.keys(fieldsError).some(field => fieldsError[field]);
@@ -147,11 +147,7 @@ export default {
             password: this.userPassword
           })
           .then(res => {
-            store.commit("SET_USER", {
-              loggedIn: true,
-              userData: res.data.user,
-              token: res.data.token
-            });
+            services.user.persist(res.data);
             this.$message.success("Bienvenue " + res.data.user.firstname);
             this.$router.push({ path: '/'})
           })
@@ -179,11 +175,7 @@ export default {
                 password: this.signPassword
               })
               .then(res => {
-                store.commit("SET_USER", {
-                  loggedIn: true,
-                  userData: res.data.user,
-                  token: res.data.token
-                });
+                services.user.persist(res.data.token);
                 this.$message.success("Bienvenue " + res.data.user.firstname);
                this.$router.push({ path: '/'})
               })

@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost', {
     user: "root",
     pass: "root",
-    dbName: "datahouse",
+    dbName: "RITMIC",
     useNewUrlParser: true,
     useUnifiedTopology: true
 });
