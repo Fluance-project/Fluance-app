@@ -4,13 +4,13 @@ import VueLocalStorage from 'vue-localstorage'
 import App from './App.vue'
 import store from './store/store'
 import router from './router/router'
-import Api from './requests'
+import Services from './services'
 
 import './assets/index.css'
 
 Vue.use(Antd);
 Vue.use(VueLocalStorage)
-Vue.prototype.$api = Api
+Vue.prototype.$api = Services
 
 Vue.config.productionTip = false
 

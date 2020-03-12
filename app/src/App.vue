@@ -8,23 +8,38 @@
         <a-menu theme="dark" :defaultSelectedKeys="['1']" mode="inline" v-if="isLoggedOn()">
           <a-menu-item key="1">
             <router-link :to="{path : '/'}">
-              <a-icon type="home" />
+              <a-icon type="dashboard" />
               <span v-if="!collapsed">Tableau de bord</span>
             </router-link>
           </a-menu-item>
           <a-sub-menu key="sub1">
             <span slot="title">
-              <a-icon type="thunderbolt" />
-              <span v-if="!collapsed">Temps réel</span>
+              <a-icon type="tool" />
+              <span v-if="!collapsed">Maintenance</span>
             </span>
             <a-menu-item key="6">
-              <router-link :to="{path : '/liveboards'}">Mes moniteurs</router-link>
+              <router-link :to="{path : '/liveboards'}">Tâches à venir</router-link>
             </a-menu-item>
             <a-menu-item key="7">
-              <router-link :to="{path : '/new-liveboards'}">Ajouter un moniteur</router-link>
+              <router-link :to="{path : '/new-liveboards'}">Registre</router-link>
             </a-menu-item>
             <a-menu-item key="8">
-              <router-link :to="{path : '/new-source'}">Sources</router-link>
+              <router-link :to="{path : '/new-source'}">Alertes</router-link>
+            </a-menu-item>
+          </a-sub-menu>
+          <a-sub-menu key="sub3">
+            <span slot="title">
+              <a-icon type="profile" />
+              <span v-if="!collapsed">Materiel</span>
+            </span>
+            <a-menu-item key="6">
+              <router-link :to="{path : '/liveboards'}">Liste du materiel</router-link>
+            </a-menu-item>
+            <a-menu-item key="7">
+              <router-link :to="{path : '/new-liveboards'}">Ajouter un materiel</router-link>
+            </a-menu-item>
+            <a-menu-item key="8">
+              <router-link :to="{path : '/new-source'}">Catégories</router-link>
             </a-menu-item>
           </a-sub-menu>
           <a-sub-menu key="sub2">
@@ -45,7 +60,7 @@
           <a-menu-item key="9">
             <router-link :to="{path : '/settings'}">
               <a-icon type="setting" />
-              <span v-if="!collapsed">Paramètres</span>
+              <span v-if="!collapsed">Paramètres </span>
             </router-link>
           </a-menu-item>
           <a-row
@@ -67,7 +82,7 @@
             <span>
               <router-link :to="{path : '/activities'}">
                 <a-badge dot style="margin-right: 16px">
-                  <a-icon type="notification" />
+                  <a-icon type="bell" />
                 </a-badge>
               </router-link>
               <router-link :to="{path : '/profile'}">
@@ -81,7 +96,7 @@
         >
           <router-view />
         </a-layout-content>
-        <a-layout-footer style="text-align: center">Datahouse | 2019</a-layout-footer>
+        <a-layout-footer style="text-align: center">Ritmic | 2019</a-layout-footer>
       </a-layout>
     </a-layout>
   </div>

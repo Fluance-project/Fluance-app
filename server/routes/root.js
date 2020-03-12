@@ -1,8 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const path = require('path');
-const createToken = require("../lib/auth").createToken;
+const createToken = require("../services/auth").createToken;
 const User = require("../models/user");
+
+const Info = require('../services/info');
 
 router.get('/', (req, res) => {
     res.sendFile(path.join(__dirname + '/../static/index.html'));
@@ -32,13 +34,21 @@ router.post("/register", (req, res) => {
             console.log("=> [SIGNIN] User created "+ data.id);
         })
         .catch(error => {
-            console.log(error);
             if (error.name === "ValidationError") {
                 res.status(400).json(error.errors);
             } else {
                 res.sendStatus(500);
             }
         });
+});
+
+router.get("/info", (req, res) => {
+    Info.getHostInfo().then((data) =>{
+        res.status(201).send(data)
+    })
+    .catch(error => {
+        res.status(500).json(error);
+    })
 });
 
 module.exports = router;

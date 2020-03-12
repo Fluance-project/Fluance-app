@@ -27,28 +27,5 @@ router.put("/:id", (req, res) => {
     user.populate(res.body);
     user.save();
 });
-/*
-// user/1/avis
-router.get("/:id/avis/", (req, res) => {
-    const query = User.findById(req.params.id).populate('avis');
-    query.exec((err, user) => {
-        return res.status(200).json({ user, avis: user.avis })
-    })
-});
-
-// user/1/avis
-router.post("/:id/avis/", (req, res) => {
-    const avis = new Avis(req.body);
-    avis.save()
-        .then(data => res.status(201).send(data))
-        .catch(error => {
-            if(error.name === 'ValidationError'){
-                res.status(400).json(error.errors);
-            } else {
-                res.sendStatus(500);
-            }
-        })
-});
-*/
 
 module.exports = router;

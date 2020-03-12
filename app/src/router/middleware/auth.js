@@ -1,8 +1,16 @@
+import services from '../../services';
+
 export default function auth ({ next, store }){
-    if(!store.getters.auth.loggedIn){
+    if(!services.user.getPersisted()){
         return next({
            name: 'Connexion'
         })
+    } else {
+       if(!store.state.user.userData){
+            return next({
+                name: 'Accueil'
+            });
+       }
     }
    
     return next()

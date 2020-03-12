@@ -1,4 +1,4 @@
-const verifyToken = require('../lib/auth').verifyToken;
+const verifyToken = require('../services/auth').verifyToken;
 
 const verify = (req, res, next) => {
     const authHeader = req.get('Authorization');
