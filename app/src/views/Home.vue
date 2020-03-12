@@ -53,7 +53,6 @@ export default {
       this.handleOk();
     }
      let usrData = JSON.parse(this.$localStorage.get('ritmic-data'));
-     console.log(usrData)
      store.commit("SET_USER", {
       loggedIn: true,
       userData: usrData.usr,
