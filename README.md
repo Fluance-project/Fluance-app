@@ -12,7 +12,7 @@ Ritmic Platform centralize and merge data collected through multiples Ritmic mod
 
 The Ritmic IoT Module is the generic abstraction of the data collector. For the moment Ritmic provides a *Basic Measurement Module* compatible with Ubuntu Core based on GPIO API of the SenseHat's Raspberry Pi 4 Module. Get it on the dedicated git repository here.
 
-[![](https://lh3.googleusercontent.com/goDif8qWkk-Oud0O3gnQGky65GAz1zV86WLJNsyZIop2InY7fAgjskNpAhf4i9VcH5VgljN_PIBWuKHUFbWT=w2880-h1428)](https://lh3.googleusercontent.com/goDif8qWkk-Oud0O3gnQGky65GAz1zV86WLJNsyZIop2InY7fAgjskNpAhf4i9VcH5VgljN_PIBWuKHUFbWT=w2880-h1428)
+[![](https://github.com/wdelenclos/Ritmic-platform/blob/master/preview.png?raw=true)](https://github.com/wdelenclos/Ritmic-platform/blob/master/preview.png?raw=true)
 
 ## Getting Started
 
