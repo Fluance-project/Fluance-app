@@ -14,25 +14,25 @@
           </a-menu-item>
           <a-sub-menu key="sub1">
             <span slot="title">
-              <a-icon type="tool" />
-              <span v-if="!collapsed">Maintenance</span>
+              <a-icon type="form" />
+              <span v-if="!collapsed">Tâches</span>
             </span>
-            <a-menu-item key="6">
+            <!-- <a-menu-item key="6">
               <router-link :to="{path : '/liveboards'}">Tâches à venir</router-link>
             </a-menu-item>
             <a-menu-item key="7">
               <router-link :to="{path : '/new-liveboards'}">Registre</router-link>
             </a-menu-item>
             <a-menu-item key="8">
-              <router-link :to="{path : '/new-source'}">Alertes</router-link>
-            </a-menu-item>
+              <router-link :to="{path : '/new-source'}">Alertes</router-link> -->
+            <!-- </a-menu-item> -->
           </a-sub-menu>
-          <a-sub-menu key="sub3">
+          <a-sub-menu key="sub2">
             <span slot="title">
-              <a-icon type="profile" />
-              <span v-if="!collapsed">Materiel</span>
+              <a-icon type="calendar" />
+              <span v-if="!collapsed">Plannification</span>
             </span>
-            <a-menu-item key="6">
+            <!-- <a-menu-item key="6">
               <router-link :to="{path : '/liveboards'}">Liste du materiel</router-link>
             </a-menu-item>
             <a-menu-item key="7">
@@ -40,14 +40,14 @@
             </a-menu-item>
             <a-menu-item key="8">
               <router-link :to="{path : '/new-source'}">Catégories</router-link>
-            </a-menu-item>
+            </a-menu-item> -->
           </a-sub-menu>
-          <a-sub-menu key="sub2">
+          <a-sub-menu key="sub3">
             <span slot="title">
-              <a-icon type="bar-chart" />
-              <span v-if="!collapsed">Rapports</span>
+              <a-icon type="hdd" />
+              <span v-if="!collapsed">Équipements</span>
             </span>
-            <a-menu-item key="3">
+            <!-- <a-menu-item key="3">
               <router-link :to="{path : '/datastories'}">Mes rapports</router-link>
             </a-menu-item>
             <a-menu-item key="4">
@@ -55,12 +55,18 @@
             </a-menu-item>
             <a-menu-item key="5">
               <router-link :to="{path : '/new-analysis'}">Importer & analyser</router-link>
-            </a-menu-item>
+            </a-menu-item> -->
           </a-sub-menu>
-          <a-menu-item key="9">
+          <a-menu-item key="sub4">
             <router-link :to="{path : '/settings'}">
+              <a-icon type="team" />
+              <span v-if="!collapsed">Membres</span>
+            </router-link>
+          </a-menu-item>
+          <a-menu-item key="sub5">
+            <router-link :to="{path : '/settings2'}">
               <a-icon type="setting" />
-              <span v-if="!collapsed">Paramètres </span>
+              <span v-if="!collapsed">Paramètres</span>
             </router-link>
           </a-menu-item>
           <a-row

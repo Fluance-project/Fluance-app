@@ -37,7 +37,7 @@ const router = new Router({
     },
     {
       path: '/',
-      name: 'Accueil',
+      name: 'Tableau de bord',
       component: Home,
       meta: {
         middleware: [
@@ -158,8 +158,8 @@ router.beforeEach((to, from, next) => {
 
 })
 
-router.afterEach((to, from) => {
+// router.afterEach((to, from) => {
   
-})
+// })
 
 export default router
