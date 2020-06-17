@@ -8,7 +8,7 @@ export default function auth ({ next, store }){
     } else {
        if(!store.state.user.userData){
             return next({
-                name: 'Accueil'
+                name: 'Tableau-de-bord'
             });
        }
     }

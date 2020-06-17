@@ -8,6 +8,8 @@ import Services from './services'
 
 import './assets/index.css'
 
+import 'ant-design-vue/dist/antd.css'
+
 Vue.use(Antd);
 Vue.use(VueLocalStorage)
 Vue.prototype.$api = Services

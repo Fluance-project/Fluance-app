@@ -2,17 +2,17 @@
   <div id="app">
     <a-layout id="demo-site" style="min-height: 100vh">
       <a-layout-sider collapsible v-model="collapsed">
-        <router-link :to="{path : '/'}">
+        <router-link :to="{name : 'Connexion', path: '/login'}">
           <Logo :collapsed="collapsed" />
         </router-link>
         <a-menu theme="dark" :defaultSelectedKeys="['1']" mode="inline" v-if="isLoggedOn()">
-          <a-menu-item key="1">
+          <a-menu-item key="0">
             <router-link :to="{path : '/'}">
               <a-icon type="dashboard" />
               <span v-if="!collapsed">Tableau de bord</span>
             </router-link>
           </a-menu-item>
-          <a-sub-menu key="sub1">
+          <a-sub-menu key="1">
             <span slot="title">
               <a-icon type="form" />
               <span v-if="!collapsed">Tâches</span>
@@ -27,11 +27,11 @@
               <router-link :to="{path : '/new-source'}">Alertes</router-link> -->
             <!-- </a-menu-item> -->
           </a-sub-menu>
-          <a-sub-menu key="sub2">
-            <span slot="title">
+          <!-- <a-sub-menu key="sub2">
+              <router-link :to="{path : '/'}">
               <a-icon type="calendar" />
               <span v-if="!collapsed">Plannification</span>
-            </span>
+              </router-link> -->
             <!-- <a-menu-item key="6">
               <router-link :to="{path : '/liveboards'}">Liste du materiel</router-link>
             </a-menu-item>
@@ -41,8 +41,32 @@
             <a-menu-item key="8">
               <router-link :to="{path : '/new-source'}">Catégories</router-link>
             </a-menu-item> -->
+          <!-- </a-sub-menu> -->
+          <a-sub-menu key="2">
+            <span slot="title">
+              <a-icon type="calendar" />
+              <span v-if="!collapsed">Plannification</span>
+            </span>
+            <a-menu-item key="2.1">
+              <router-link
+                :to="{name : 'Plannification / Planning d\'intervention',
+                  path: 'planning'
+                }"
+              >
+                  Planning
+              </router-link>
+            </a-menu-item>
+            <a-menu-item key="2.2">
+              <router-link
+                :to="{name : 'Plannification / Plannifier une intervention',
+                  path: 'make-planning'
+                }"
+              >
+                Plannifier
+              </router-link>
+            </a-menu-item>
           </a-sub-menu>
-          <a-sub-menu key="sub3">
+          <a-sub-menu key="3">
             <span slot="title">
               <a-icon type="hdd" />
               <span v-if="!collapsed">Équipements</span>
@@ -57,13 +81,13 @@
               <router-link :to="{path : '/new-analysis'}">Importer & analyser</router-link>
             </a-menu-item> -->
           </a-sub-menu>
-          <a-menu-item key="sub4">
+          <a-menu-item key="4">
             <router-link :to="{path : '/settings'}">
               <a-icon type="team" />
               <span v-if="!collapsed">Membres</span>
             </router-link>
           </a-menu-item>
-          <a-menu-item key="sub5">
+          <a-menu-item key="5">
             <router-link :to="{path : '/settings2'}">
               <a-icon type="setting" />
               <span v-if="!collapsed">Paramètres</span>
@@ -101,6 +125,7 @@
           :style="{ margin: '24px 16px', background: 'transparent', minHeight: '280px' }"
         >
           <router-view />
+          <!-- <router-view name='Plan' /> -->
         </a-layout-content>
         <a-layout-footer style="text-align: center">Ritmic | 2019</a-layout-footer>
       </a-layout>

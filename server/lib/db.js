@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 
 // On set l'object mongo avec les variables d'encvironnement
-mongoose.connect('mongodb://localhost', {
+mongoose.connect('mongodb://0.0.0.0', {
     user: "root",
     pass: "root",
     dbName: "RITMIC",

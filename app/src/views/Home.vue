@@ -1,5 +1,6 @@
 <template>
-  <a-layout-content style="margin: 0 0px">
+  <!-- <a-layout-content style="margin: 0 0px"> -->
+    <div>
     <a-row :gutter="10">
       <a-col :span="8">
         <a-card title="Equipement" :bordered="false" style="margin-top: 24px" align="center">
@@ -9,9 +10,9 @@
             :value-style="{ color: '#3f8600' }"
             style="margin-right: 50px"
           >
-            <template #prefix>
+            <!-- <template #prefix>
               <a-icon type="arrow-up" />
-            </template>
+            </template> -->
           </a-statistic>
         </a-card>
       </a-col>
@@ -23,9 +24,9 @@
             class="demo-class"
             :value-style="{ color: '#cf1322' }"
           >
-            <template #prefix>
+            <!-- <template #prefix>
               <a-icon type="arrow-down"/>
-            </template>
+            </template> -->
           </a-statistic>
         </a-card>
       </a-col>
@@ -38,14 +39,13 @@
             class="demo-class"
             :value-style="{ color: '#3f8600' }"
           >
-            <template #prefix>
+            <!-- <template #prefix>
               <a-icon type="arrow-up" />
-            </template>
+            </template> -->
           </a-statistic>
         </a-card>
       </a-col>
     </a-row>
-    <div>
       <a-row :gutter="10" type="flex" align="middle">
         <a-col :span="12">
           <a-card title="Indicateurs" :bordered="false" style="margin-top: 24px">
@@ -91,12 +91,12 @@
           </a-card>
         </a-col>
       </a-row>
-    </div>
-    <div>
       <a-row>
         <a-col :span="24">
           <a-card title="Interventions à venir" :bordered="false" style="margin-top: 24px; margin-bottom: 24px">
-            <a slot="extra" href="#">Voir le planning complet</a>
+            <router-link slot="extra" :to="{name : 'Plannification / Planning d\'intervention'}">
+              Voir le planning complet
+            </router-link>
             <a-table :columns="columns.venir" :data-source="data.venir" :pagination=false>
               <span slot="type" slot-scope="type">
                 <a-tag
@@ -112,8 +112,8 @@
           </a-card>
         </a-col>
       </a-row>
-    </div>
-  </a-layout-content>
+  </div>
+  <!-- </a-layout-content> -->
 </template>
 
 <script>
