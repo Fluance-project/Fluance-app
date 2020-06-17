@@ -52,13 +52,13 @@
             <a slot="extra" href="#">modifier</a>
             <a-row type="flex" justify="space-around">
               <a-col :span="8" align="middle">
-                <a-progress type="circle" :percent="`'${35*100/150}'`" :format="() => `MTBM \n 35h`" :width="250" :strokeWidth="10" status="success"/>
+                <a-progress type="circle" :percent="`${35*100/150}`" :format="() => `MTBM \n 35h`" :width="250" :strokeWidth="10" status="success"/>
               </a-col>
               <a-col :span="8" align="middle">
-                <a-progress type="circle" :percent="`'${235*100/1500}'`" :format="() => 'MTBM \n 235h'" :width="250" :strokeWidth="10"/>
+                <a-progress type="circle" :percent="`${235*100/1500}`" :format="() => 'MTBM \n 235h'" :width="250" :strokeWidth="10"/>
               </a-col>
               <a-col :span="8" align="middle">
-                <a-progress type="circle" :percent="`'${32*100/100}'`" :width="250" :format="() => 'MTTR \n 32h'" :strokeWidth="10" status="exception">
+                <a-progress type="circle" :percent="`${32*100/100}`" :width="250" :format="() => 'MTTR \n 32h'" :strokeWidth="10" status="exception">
                 </a-progress>
               </a-col>
               <p style="margin-top: 24px">Dernière mise à jour: {{ date }} à {{ hour }}</p>
