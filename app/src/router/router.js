@@ -2,16 +2,17 @@ import Vue from 'vue'
 
 import Router from 'vue-router'
 import Home from '../views/Home.vue'
-import Datastories from '../views/Datastories.vue'
-import NewDatastory from '../views/NewDatastory.vue'
-import Boards from '../views/Boards.vue'
-import NewBoard from '../views/NewBoard.vue'
-import NewAnalysis from '../views/NewAnalysis.vue'
-import Source from '../views/Source.vue'
-import Profile from '../views/Profile.vue'
-import Settings from '../views/Settings.vue'
+// import Datastories from '../views/Datastories.vue'
+// import NewDatastory from '../views/NewDatastory.vue'
+// import Boards from '../views/Boards.vue'
+// import NewBoard from '../views/NewBoard.vue'
+// import NewAnalysis from '../views/NewAnalysis.vue'
+// import Source from '../views/Source.vue'
+// import Profile from '../views/Profile.vue'
+// import Settings from '../views/Settings.vue'
 import Login from '../views/Login.vue'
-import Notification from '../views/Notification.vue'
+import Planning from '../views/Plan/Planning.vue'
+import Plannifier from '../views/Plan/Plannifier.vue'
 
 import guest from './middleware/guest'
 import auth from './middleware/auth'
@@ -31,13 +32,14 @@ const router = new Router({
       component: Login,
       meta: {
         middleware: [
-          guest
+          guest,
+          auth
         ]
       }
     },
     {
       path: '/',
-      name: 'Accueil',
+      name: 'Tableau-de-bord',
       component: Home,
       meta: {
         middleware: [
@@ -46,9 +48,9 @@ const router = new Router({
       },
     },
     {
-      path: '/activities',
-      name: 'Activités',
-      component: Notification,
+      path: '/task',
+      name: 'Tâches',
+      component: Home,
       meta: {
         middleware: [
           auth
@@ -56,9 +58,9 @@ const router = new Router({
       },
     },
     {
-      path: '/datastories',
-      name: 'Mes Datastories',
-      component: Datastories,
+      path: '/planning',
+      name: 'Plannification / Planning d\'intervention',
+      component: Planning,
       meta: {
         middleware: [
           auth
@@ -66,75 +68,95 @@ const router = new Router({
       },
     },
     {
-      path: '/new-datastory',
-      name: 'Nouvelle datastory',
-      component: NewDatastory,
+      path: '/make-planning',
+      name: 'Plannification / Plannifier une intervention',
+      component: Plannifier,
       meta: {
         middleware: [
           auth
         ]
       },
     },
-    {
-      path: '/liveboards',
-      name: 'Mes moniteurs en temps réel',
-      component: Boards,
-      meta: {
-        middleware: [
-          auth
-        ]
-      },
-    },
-    {
-      path: '/new-liveboards',
-      name: 'Nouveau moniteur en temps réel',
-      component: NewBoard,
-      meta: {
-        middleware: [
-          auth
-        ]
-      },
-    },
-    {
-      path: '/new-source',
-      name: 'Sources en temps réel',
-      component: Source,
-      meta: {
-        middleware: [
-          auth
-        ]
-      },
-    },
-    {
-      path: '/new-analysis',
-      name: 'Analyser un dataset',
-      component: NewAnalysis,
-      meta: {
-        middleware: [
-          auth
-        ]
-      },
-    },
-    {
-      path: '/settings',
-      name: 'Paramètres',
-      component: Settings,
-      meta: {
-        middleware: [
-          auth
-        ]
-      },
-    },
-    {
-      path: '/profile',
-      name: 'Profile',
-      component: Profile,
-      meta: {
-        middleware: [
-          auth
-        ]
-      },
-    },
+    // {
+    //   path: '/datastories',
+    //   name: 'Mes Datastories',
+    //   component: Datastories,
+    //   meta: {
+    //     middleware: [
+    //       auth
+    //     ]
+    //   },
+    // },
+    // {
+    //   path: '/new-datastory',
+    //   name: 'Nouvelle datastory',
+    //   component: NewDatastory,
+    //   meta: {
+    //     middleware: [
+    //       auth
+    //     ]
+    //   },
+    // },
+    // {
+    //   path: '/liveboards',
+    //   name: 'Mes moniteurs en temps réel',
+    //   component: Boards,
+    //   meta: {
+    //     middleware: [
+    //       auth
+    //     ]
+    //   },
+    // },
+    // {
+    //   path: '/new-liveboards',
+    //   name: 'Nouveau moniteur en temps réel',
+    //   component: NewBoard,
+    //   meta: {
+    //     middleware: [
+    //       auth
+    //     ]
+    //   },
+    // },
+    // {
+    //   path: '/new-source',
+    //   name: 'Sources en temps réel',
+    //   component: Source,
+    //   meta: {
+    //     middleware: [
+    //       auth
+    //     ]
+    //   },
+    // },
+    // {
+    //   path: '/new-analysis',
+    //   name: 'Analyser un dataset',
+    //   component: NewAnalysis,
+    //   meta: {
+    //     middleware: [
+    //       auth
+    //     ]
+    //   },
+    // },
+    // {
+    //   path: '/settings',
+    //   name: 'Paramètres',
+    //   component: Settings,
+    //   meta: {
+    //     middleware: [
+    //       auth
+    //     ]
+    //   },
+    // },
+    // {
+    //   path: '/profile',
+    //   name: 'Profile',
+    //   component: Profile,
+    //   meta: {
+    //     middleware: [
+    //       auth
+    //     ]
+    //   },
+    // },
   ]
 })
 
@@ -142,6 +164,7 @@ router.beforeEach((to, from, next) => {
   if (!to.meta.middleware) {
     return next()
   }
+
   const middleware = to.meta.middleware
 
   const context = {
@@ -158,8 +181,8 @@ router.beforeEach((to, from, next) => {
 
 })
 
-router.afterEach((to, from) => {
+// router.afterEach((to, from) => {
   
-})
+// })
 
 export default router

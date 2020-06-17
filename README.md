@@ -24,7 +24,11 @@ Go to */app* and type ``yarn start`` to start a local instance for debug/dev, or
 
 Go to */server* and type ``yarn start`` to start a local instance for debug/dev of the Ritmic server, or type ``yarn build`` to build the production server.
 
-For more information about the **app** or the **server** go to specifics readme inside of dedicated folders. 
+For more information about the **app** or the **server** go to specifics readme inside of dedicated folders.
+
+## On Docker
+
+On root's project run: `docker-compose -f docker-compose-dev.yml up -d --build`
 
 ## Credits & contributors
 - Wladimir Delenclos - Digital Engineer

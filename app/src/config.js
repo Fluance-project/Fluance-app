@@ -8,7 +8,7 @@ const config = {
   entity : "IndustryExample",
 
   // Back-End
-  server_uri : "http://localhost",
+  server_uri : "http://0.0.0.0",
   server_port: 3003,
 }
 

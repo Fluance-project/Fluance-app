@@ -1,9 +1,10 @@
 import services from '../../services';
 
-export default function guest ({ next, store }){
+export default function guest ({ next }){
     if(services.user.getPersisted()){
         return next({
-           name: 'Accueil'
+           name: 'Connexion',
+           path: '/login'
         })
     }
    

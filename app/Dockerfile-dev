@@ -1,0 +1,15 @@
+FROM node:12.16
+
+RUN mkdir -p /usr/src/ritmic/app
+
+WORKDIR /usr/src/ritmic/app
+
+ENV PATH /usr/src/ritmic/app/node_modules/.bin:$PATH
+
+COPY . /usr/src/ritmic/app
+
+RUN npm install --silent
+
+RUN npm install -g @vue/cli --silent
+
+CMD ["npm", "run", "serve"]
