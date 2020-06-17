@@ -1,8 +1,9 @@
 const mongoose = require('mongoose');
 
-
+const database = process.env.VUE_APP_DATABASE_URI || 'mongodb://0.0.0.0'
+console.log(database)
 // On set l'object mongo avec les variables d'encvironnement
-mongoose.connect('mongodb://0.0.0.0', {
+mongoose.connect(database, {
     user: "root",
     pass: "root",
     dbName: "RITMIC",
