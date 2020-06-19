@@ -1,16 +1,15 @@
-# develop stage
-FROM node:11.1-alpine as develop-stage
-WORKDIR /app
-COPY package*.json ./
-RUN npm install
-COPY . .
+FROM node:12.16-alpine
 
-# build stage
-FROM develop-stage as build-stage
-RUN npm build
+RUN mkdir -p /usr/src/fluance/app
 
-# production stage
-FROM nginx:1.15.7-alpine as production-stage
-COPY --from=build-stage /app/dist /usr/share/nginx/html
-EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
+WORKDIR /usr/src/fluance/app
+
+ENV PATH /usr/src/fluance/app/node_modules/.bin:$PATH
+
+COPY . /usr/src/fluance/app
+
+RUN npm install --silent
+
+RUN npm install -g @vue/cli@4.4.4 --silent
+
+CMD ["npm", "run", "serve"]

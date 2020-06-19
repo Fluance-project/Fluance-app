@@ -1,20 +1,12 @@
 import Vue from 'vue'
-import Antd from 'ant-design-vue';
-import VueLocalStorage from 'vue-localstorage'
 import App from './App.vue'
-import store from './store/store'
-import router from './router/router'
-import Services from './services'
-
-import './assets/index.css'
-
-import 'ant-design-vue/dist/antd.css'
-
-Vue.use(Antd);
-Vue.use(VueLocalStorage)
-Vue.prototype.$api = Services
+import router from './router'
+import store from './store'
+import Services from './api/services'
 
 Vue.config.productionTip = false
+Vue.prototype.$service = Services
+// Vue.http.header.common['Access-Control-Allow-Origin'] = '*'
 
 new Vue({
   router,
