@@ -14,11 +14,18 @@ The Ritmic IoT Module is the generic abstraction of the data collector. For the 
 
 [![](https://github.com/wdelenclos/Ritmic-platform/blob/master/preview.png?raw=true)](https://github.com/wdelenclos/Ritmic-platform/blob/master/preview.png?raw=true)
 
+## Roadmap:
+
+- [x] Application database: Mongodb 
+- [ ] Frondend: Vuejs
+- [ ] Backend: Flask Restful
+- [ ] Datalake: Elasticsearch + Kafka + IoT
+
 ## Getting Started
 
 The project Ritmic Platform is using resources specified on the package.json. First install it with following command.
 
-    yarn install
+    yarn install or npm install
 
 Ritmic platform provide a ready-to-use docker-compose file for MongoDB. if you want to use it, type `docker-compose up -d` in the root folder. 
 
@@ -30,7 +37,19 @@ For more information about the **app** or the **server** go to specifics readme 
 
 ## On Docker
 
-On root's project run: `docker-compose -f docker-compose-dev.yml up -d --build`
+Running app - frontend:
+```
+cd app
+docker build -t fluance:latest .
+docker run -it -p 8080:8080 fluance:latest
+```
+
+Runnng api - backend: :warning: `comming soon`
+
+Running mongodb: :warning: `comming soon`
+
+## On Docker compose for 3 services: `frontend` + `backend` + `mongodb`
+:warning: `comming soon`
 
 ## Credits & contributors
 - Wladimir Delenclos - Digital Engineer
