@@ -1,15 +1,18 @@
-import { isValidJwt, EventBus } from '../../utils'
+import { isValidJwt, EventBus, sparseUserFromToken } from '../../utils'
+import Services from '../../api/services'
 
 const state = {
-    account: {},
-    jwt: ''
+    user: '',
+    token: '',
+    exp: '',
+    userData: {}
 }
 
 const actions = {
 
     login(context, userData) {
         context.commit('setUserData', { userData })
-        return this.$service.account
+        return Services.account
             .login(userData)
             .then(res => context.commit('setJwtToken', { jwt: res.data}))
             .catch(error => {
@@ -19,7 +22,7 @@ const actions = {
     },
     register (context, userData) {
         context.commit('setUserData', { userData })
-        return this.$service.account
+        return Services.account
             .register(userData)
             .then(context.dispatch('login', userData))
             .catch(error => {
@@ -30,6 +33,11 @@ const actions = {
 
     logout () {
         
+    },
+
+    token(context, token) {
+        context.commit('setToken', {token: token})
+        context.commit('setUser', {token: token})
     }
 }
 
@@ -40,11 +48,22 @@ const mutations = {
     },
     setJwtToken (state, payload) {
         console.log('setJwtToken payload = ', payload)
-        localStorage.token = payload.jwt.token
-        state.jwt = payload.jwt
+        // localStorage.token = payload.jwt.token
+        state.token = payload.jwt.token
+        state.user = payload.jwt.user
     },
-    SET_USER(state, user) {
-        state.user = user
+    // SET_USER(state, user) {
+    //     state.user = user
+    // },
+    setToken (state, payload) {
+        // console.log("token = ", payload)
+        state.token = payload.token
+    },
+    setUser (state, payload) {
+        const tokenInfo = sparseUserFromToken(payload.token)
+        state.user = tokenInfo.user
+        state.exp = tokenInfo.exp
+        // console.log("token info = ", tokenInfo)
     }
 }
 
@@ -55,6 +74,7 @@ const getters = {
 }
 
 const account = {
+    namespaced: true,
     state,
     actions,
     mutations,

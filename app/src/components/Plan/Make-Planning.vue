@@ -191,6 +191,9 @@ export default {
             },
         };
   },
+  created() {
+        this.$store.dispatch('home/loadRoute', this.$router.currentRoute.name);
+    },
   methods: {
     onChange() {
         this.$message.success('Processing complete!')

@@ -120,7 +120,7 @@ const data = [
       status: ['Terminé']
     },
     {
-      id: '#139',
+      id: '#140',
       equipement: 'Fraiseuse Siements AD45[...]',
       type: ['conditionelle'],
       date: '2017-10-03 19:23:12',
@@ -137,6 +137,9 @@ export default {
           columns,
           editingKey: '',
       }
+    },
+    created() {
+      this.$store.dispatch('home/loadRoute', this.$router.currentRoute.name);
     },
     methods: {
       edit(key) {
