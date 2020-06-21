@@ -7,7 +7,7 @@ export default class AccountService {
 
     register(data) {
         return new Promise((resolve, reject) => {
-            axios.post(this.dbUrl + '/register', {
+            axios.post(this.dbUrl + '/api/v1/register', {
                 companyName: data.companyName,
                 email: data.email,
                 password: data.password,
@@ -28,7 +28,7 @@ export default class AccountService {
 
     login(data) {
         return new Promise((resolve, reject) => {
-            axios.post(this.dbUrl + '/login', {
+            axios.post(this.dbUrl + '/api/v1/login', {
                 email: data.email,
                 password: data.password
             })
