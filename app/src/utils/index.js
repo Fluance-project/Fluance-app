@@ -14,6 +14,15 @@ export function isValidJwt (jwt) {
     // return now < exp
 }
 
+export function sparseUserFromToken (token) {
+    let acc = JSON.parse(atob(token.split('.')[1]))
+    const tokenInfo = {
+        user: acc.user,
+        exp: acc.exp
+    }
+    return tokenInfo
+} 
+
 export function authHeader() {
     let acc = JSON.parse(localStorage.getItem('fluance-data'));
     if (acc && acc.token) {

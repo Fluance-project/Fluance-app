@@ -235,54 +235,58 @@ export default {
     };
   },
   computed: mapState({
-    snapShot: state => state.snapShot
+    snapShot: state => state.home.snapShot,
+    // route: state => state.home.route
   }),
   beforeMount() {
-      this.$store.dispatch('loadSnapShot')
+      this.$store.dispatch('home/loadSnapShot')
   },
   created: function() {
-    let modalSession = localStorage.getItem("welcomeModal");
-    if (modalSession === null || modalSession === true) {
-      this.showModal();
-    } else {
-      this.handleOk();
-    }
-     let usrData = JSON.parse(localStorage.getItem('fluance-data'));
-     this.$store.commit("SET_USER", {
-      loggedIn: true,
+    // console.log(this.$router.currentRoute.name)
+    // this.route = this.$router.currentRoute.name
+    this.$store.dispatch('home/loadRoute', this.$router.currentRoute.name);
+    // let modalSession = localStorage.getItem("welcomeModal");
+    // if (modalSession === null || modalSession === true) {
+    //   this.showModal();
+    // } else {
+    //   this.handleOk();
+    // }
+    //  let usrData = JSON.parse(localStorage.getItem('fluance-data'));
+    //  this.$store.commit("SET_USER", {
+    //   loggedIn: true,
       // userData: usrData.usr,
-      token: usrData.token
-    });
-    setInterval(this.getTime, 1000);
+    //   token: usrData.token
+    // });
+    // setInterval(this.getTime, 1000);
   },
   methods: {
-    showModal() {
-      this.visible = true;
-    },
-    handleOk() {
-      this.visible = false;
-    },
-    closeModal() {
-      localStorage.getItem("welcomeModal", false);
-      this.handleOk();
-    },
-    getTime() {
-      let date = new Date();
-      let h = date.getHours();
-      let m = date.getMinutes();
-      let s = date.getSeconds();
+    // showModal() {
+    //   this.visible = true;
+    // },
+    // handleOk() {
+    //   this.visible = false;
+    // },
+    // closeModal() {
+    //   localStorage.getItem("welcomeModal", false);
+    //   this.handleOk();
+    // },
+    // getTime() {
+    //   let date = new Date();
+    //   let h = date.getHours();
+    //   let m = date.getMinutes();
+    //   let s = date.getSeconds();
 
-      if (h < 10) {
-        h = "0" + h;
-      }
-      if (m < 10) {
-        m = "0" + m;
-      }
-      if (s < 10) {
-        s = "0" + s;
-      }
-      this.hour = h + ":" + m + ":" + s;
-    }
+    //   if (h < 10) {
+    //     h = "0" + h;
+    //   }
+    //   if (m < 10) {
+    //     m = "0" + m;
+    //   }
+    //   if (s < 10) {
+    //     s = "0" + s;
+    //   }
+    //   this.hour = h + ":" + m + ":" + s;
+    // }
   }
 };
 </script>

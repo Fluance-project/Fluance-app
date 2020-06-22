@@ -1,21 +1,5 @@
 version: '3.4'
 services:
-  ritmic-server:
-    container_name: ritmic-server
-    build:
-      context: ./server
-      dockerfile: Dockerfile-dev
-    environment:
-      - VUE_APP_DATABASE_URI=mongodb://server-db
-    ports:
-      - 3003:3003
-    depends_on: 
-      - server-db
-    links:
-      - server-db
-    networks:
-    - ritmic_net
-
   server-db:
     image: mongo
     container_name: server-db
@@ -27,7 +11,7 @@ services:
       - MONGO_INITDB_ROOT_PASSWORD=root
     volumes:
       # seeding scripts
-      - ./server/mongo-entrypoint:/docker-entrypoint-initdb.d
+      - ./:/docker-entrypoint-initdb.d
       # named volumes
       - mongodb:/data/db
       - mongoconfig:/data/configdb

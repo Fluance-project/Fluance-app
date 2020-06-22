@@ -74,6 +74,7 @@
 
 <script>
 // import services from "../services";
+import { mapState } from 'vuex'
 
 function hasErrors(fieldsError) {
   return Object.keys(fieldsError).some(field => fieldsError[field]);
@@ -121,8 +122,12 @@ export default {
     this.$nextTick(() => {
       // To disabled submit button at the beginning.
       this.form.validateFields();
+      // console.log(this.$store.state.account)
     });
   },
+  computed: mapState({
+    account: state => state.account
+  }),
   methods: {
     // Only show error after a field is touched.
     userNameError() {
@@ -140,7 +145,6 @@ export default {
     },
     handleLogin(e) {
       e.preventDefault();
-      console.log(this.form)
       this.form.validateFields(() => {
         this.$service.account
           .login({
@@ -149,7 +153,9 @@ export default {
           })
           .then(res => {
             this.$service.account.persist(res.data);
-            this.$message.success("Bienvenue ");
+            // stored user and token information
+            this.$store.dispatch('account/token', res.data.token);
+            this.$message.success("Bienvenue " + this.account.user);
             this.$router.push({ path: '/'})
           })
           .catch(err => {
@@ -177,8 +183,10 @@ export default {
               })
               .then(res => {
                 this.$service.account.persist(res.data);
-                this.$message.success("Bienvenue ");
-               this.$router.push({ path: '/'})
+                // stored user and token information
+                this.$store.dispatch('account/token', res.data.token);
+                this.$message.success("Bienvenue " + this.account.user);
+                this.$router.push({ path: '/'})
               })
               .catch(err => {
                 this.$message.error(err.message);
