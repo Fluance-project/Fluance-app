@@ -1,12 +1,12 @@
 <template>
     <a-layout id="demo-site" style="min-height: 100vh">
       <a-layout-sider collapsible v-model="collapsed">
-        <router-link :to="{path: '/'}">
+        <router-link :to="{name:'Tableau-de-bord'}">
           <Logo :collapsed="collapsed" />
         </router-link>
         <a-menu theme="dark" :defaultSelectedKeys="['1']" mode="inline" v-if="isLoggedOn()">
           <a-menu-item key="0">
-            <router-link :to="{path : '/', name:'Tableau-de-bord'}">
+            <router-link :to="{name:'Tableau-de-bord'}">
               <a-icon type="dashboard" />
               <span v-if="!collapsed">Tableau de bord</span>
             </router-link>
@@ -116,20 +116,23 @@
 <script>
 
 import Logo from './Logo.vue'
+import { mapState } from 'vuex'
 
 export default {
-    name: 'Home',
+    name: 'Base',
     components: {
         Logo
     },
     data () {
         return {
             collapsed: null,
-            route: this.$router.currentRoute.name,
+            // route: this.$router.currentRoute.name,
         }
     },
+    computed: mapState({
+      route: state => state.home.route
+    }),
     created: function() {
-      console.log(this.$router.currentRoute.name)
         if (!this.isLoggedOn()) {
         this.collapsed = true;
         } else {

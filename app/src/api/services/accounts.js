@@ -10,12 +10,12 @@ export default class AccountService {
             axios.post(this.dbUrl + '/api/v1/register', {
                 companyName: data.companyName,
                 email: data.email,
-                password: data.password,
-                user: [
-                    {'first name':'khac bao Anh', 'last name':'nguyen', 'title':'super saiyan', 'role':'0'}, 
-                    {'first name':'myriam', 'last name':'masmoudi', 'title':'la reine des neiges', 'role':'1'}, 
-                    {'first name':'wladimir', 'last name':'delenclos', 'title':'super saiyan', 'role':'0'},
-                ]
+                password: data.password
+            }, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer '
+                }
             })
             .then((res) => {
                 resolve(res);
@@ -31,6 +31,11 @@ export default class AccountService {
             axios.post(this.dbUrl + '/api/v1/login', {
                 email: data.email,
                 password: data.password
+            }, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer '
+                }
             })
             .then((res) => {
                 resolve(res);
