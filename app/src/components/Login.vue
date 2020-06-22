@@ -3,7 +3,7 @@
     <a-row type="flex" justify="center">
       <a-col :span="10">
         <img
-          style="margin: 0 auto; display: block;  width: 500px; padding: 12px 0; max-height: 286px"
+          style="margin: 32px auto; display: block; max-width: 100%; padding: 12px 0; max-height: 100px"
           src="../assets/cover.png"
         />
         <a-card>
