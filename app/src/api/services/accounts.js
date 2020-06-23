@@ -61,4 +61,16 @@ export default class AccountService {
             return false;
         }
     }
+
+    persistUser(dataUser) {
+        window.localStorage.setItem('user', JSON.stringify(dataUser));
+    }
+
+    getDataUser() {
+        if(window.localStorage.getItem('user')){
+            return window.localStorage.getItem('user')
+        } else {
+            return false;
+        }
+    }
 }

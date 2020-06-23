@@ -26,7 +26,7 @@
                   </a-input>
                 </a-form-item>
                 <a-form-item>
-                  <a-checkbox>Remember me</a-checkbox>
+                  <a-checkbox v-model="rememberMe">Remember me</a-checkbox>
                   <a class="login-form-forgot" href>Forgot password</a>
                   <a-button type="primary" html-type="submit" class="login-form-button">Connexion</a-button>
                 </a-form-item>
@@ -89,6 +89,7 @@ export default {
       autoCompleteResult: [],
       email: "",
       password: "",
+      rememberMe: true,
       // signFirstname: "",
       signName: "",
       signPassword: "",
@@ -124,6 +125,11 @@ export default {
       // To disabled submit button at the beginning.
       this.form.validateFields();
       // console.log(this.$store.state.account)
+      const userData = JSON.parse(this.$service.account.getDataUser())
+      if (userData) {
+        this.email = userData.email;
+        this.password = userData.password
+      }
     });
   },
   computed: mapState({
@@ -153,6 +159,14 @@ export default {
             password: this.password
           })
           .then(res => {
+            if (this.rememberMe === true) {
+              this.$service.account.persistUser({
+                email: this.email,
+                password: this.password
+              })
+            } else {
+              localStorage.removeItem('user')
+            }
             this.$service.account.persist(res.data);
             // stored user and token information
             this.$store.dispatch('account/token', res.data.token);
