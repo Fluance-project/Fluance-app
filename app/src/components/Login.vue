@@ -16,7 +16,7 @@
                 @submit="handleLogin"
               >
                 <a-form-item>
-                  <a-input placeholder="Email" v-model="email">
+                  <a-input type="email" placeholder="Email" v-model="email">
                     <a-icon slot="prefix" type="mail" style="color: rgba(0,0,0,.25)" />
                   </a-input>
                 </a-form-item>
@@ -49,16 +49,16 @@
                       <a-icon type="question-circle-o" />
                     </a-tooltip>
                   </span>
-                  <a-input v-model="signEmail" />
+                  <a-input type="email" v-model="signEmail" />
                 </a-form-item>
                 <a-form-item v-bind="formItemLayout" label="Mot de passe">
                   <a-input v-model="signPassword" type="password" />
                 </a-form-item>
                 <a-form-item v-bind="formItemLayout" label="Confirmer mdp">
-                  <a-input type="password" @blur="handleConfirmBlur" />
+                  <a-input type="password" @blur="handleConfirmBlur" v-model="samePassword" />
                 </a-form-item>
                 <a-form-item v-bind="tailFormItemLayout">
-                  <a-checkbox>J'accepte les conditions d'utilisation</a-checkbox>
+                  <a-checkbox v-model="signTerms">J'accepte les conditions d'utilisation</a-checkbox>
                 </a-form-item>
                 <a-form-item v-bind="tailFormItemLayout">
                   <a-button type="primary" html-type="submit">S'inscrire</a-button>
@@ -92,6 +92,7 @@ export default {
       // signFirstname: "",
       signName: "",
       signPassword: "",
+      samePassword: "",
       signEmail: "",
       signTerms: false,
       formItemLayout: {
@@ -167,51 +168,42 @@ export default {
       e.preventDefault();
       this.form.validateFields(() => {
         this.$message.loading("Inscription ...", 0.5);
-        this.$service.account
-          .register({
-            // firstname: this.signFirstname,
-            companyName: this.signName,
-            email: this.signEmail,
-            password: this.signPassword,
-            termsAccepted: true
-          })
-          .then(() => {
-            this.$service.account
-              .login({
-                email: this.signEmail,
-                password: this.signPassword
-              })
-              .then(res => {
-                this.$service.account.persist(res.data);
-                // stored user and token information
-                this.$store.dispatch('account/token', res.data.token);
-                this.$message.success("Bienvenue " + this.account.user);
-                this.$router.push({ path: '/'})
-              })
-              .catch(err => {
-                this.$message.error(err.message);
-              });
-          })
-          .catch(err => {
-            this.$message.error(err.message);
-          });
+        if (this.signPassword !== this.samePassword) {
+          this.$message.error("Password should be matched !!!")
+        } else if (this.signTerms === false) {
+          this.$message.info("Veuillez accepter les terms !!!")
+        } else {
+          this.$service.account
+            .register({
+              // firstname: this.signFirstname,
+              companyName: this.signName,
+              email: this.signEmail,
+              password: this.signPassword,
+              termsAccepted: true
+            })
+            .then(() => {
+              this.$service.account
+                .login({
+                  email: this.signEmail,
+                  password: this.signPassword
+                })
+                .then(res => {
+                  this.$service.account.persist(res.data);
+                  // stored user and token information
+                  this.$store.dispatch('account/token', res.data.token);
+                  this.$message.success("Bienvenue " + this.account.user);
+                  this.$router.push({ path: '/'})
+                })
+                .catch(err => {
+                  this.$message.error(err.message);
+                });
+            })
+            .catch(err => {
+              this.$message.error(err.message);
+            });
+        }
       });
     },
-    compareToFirstPassword(rule, value, callback) {
-      const form = this.form;
-      if (value && value !== form.getFieldValue("password")) {
-        callback("Two passwords that you enter is inconsistent!");
-      } else {
-        callback();
-      }
-    },
-    validateToNextPassword(rule, value, callback) {
-      const form = this.form;
-      if (value && this.confirmDirty) {
-        form.validateFields(["confirm"], { force: true });
-      }
-      callback();
-    }
   }
 };
 </script>
