@@ -5,6 +5,7 @@ import Login from '../components/Login.vue'
 import Ping from '../components/Ping.vue'
 import Planning from '../components/Plan/Planning.vue'
 import makePlanning from '../components/Plan/Make-Planning.vue'
+import Person from '../components/Person.vue'
 
 Vue.use(Router)
 // const secure = true
@@ -35,7 +36,12 @@ const router = new Router({
             path: '/make-planning',
             name: 'Plannification / Plannifier une intervention',
             component: makePlanning
-        }
+        },
+        {
+            path: '/membres',
+            name: 'Gestion de l\'équipe',
+            component: Person
+        },
     ]
 });
 import { isValidJwt } from '../utils'

@@ -57,7 +57,7 @@
             </a-menu-item> -->
           </a-sub-menu>
           <a-menu-item key="4">
-            <router-link :to="{path : '/settings'}">
+            <router-link :to="{path : '/membres'}">
               <a-icon type="team" />
               <span v-if="!collapsed">Membres</span>
             </router-link>
