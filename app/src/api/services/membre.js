@@ -1,4 +1,5 @@
 import axios from 'axios';
+import AccountService from 'accounts.js';
 
 export default class MembreService {
     constructor(context) {
@@ -6,8 +7,9 @@ export default class MembreService {
     }
 
     getAccountParent(email) {
+        accId = new AccountService().getAccount(email)
         return new Promise((resolve, reject) => {
-            axios.get(this.dbUrl + '/api/v1/account', {
+            axios.get(this.dbUrl + `'/api/v1/account/${accId.id}'`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': 'Bearer '
@@ -41,33 +43,5 @@ export default class MembreService {
                 reject(err);
             })
         })
-    }
-
-    logout() {
-        window.localStorage.removeItem('fluance-data');
-    }
-
-    persist(data) {
-        window.localStorage.setItem('fluance-data', JSON.stringify({token: data.token}));
-    }
-
-    getPersisted() {
-        if(window.localStorage.getItem('fluance-data')){
-            return window.localStorage.getItem('fluance-data')
-        } else {
-            return false;
-        }
-    }
-
-    persistUser(dataUser) {
-        window.localStorage.setItem('user', JSON.stringify(dataUser));
-    }
-
-    getDataUser() {
-        if(window.localStorage.getItem('user')){
-            return window.localStorage.getItem('user')
-        } else {
-            return false;
-        }
     }
 }

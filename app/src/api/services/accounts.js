@@ -73,4 +73,27 @@ export default class AccountService {
             return false;
         }
     }
+
+    getAccount(email) {
+        const allAccount = [
+            {
+                id: 1,
+                email: "anh@gmail.com",
+                companyName: "Fluance"
+            },
+            {
+                id: 2,
+                email: "baoanh@gmail.com",
+                companyName: "Fluance"
+            },
+        ]
+        return new Promise((resolve, reject) => {
+            const currentAccount = allAccount.find(el => el.email == email)
+            if (currentAccount) {
+                resolve(currentAccount)
+            } else {
+                reject("No account existed !!!")
+            }
+        })
+    }
 }

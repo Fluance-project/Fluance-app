@@ -4,11 +4,50 @@
           <a-col :span="24">
             <a-card title="Membres de l'équipe" :bordered="false" style="margin-top: 24px; margin-bottom: 24px">
                 <!-- <a slot="extra" href="/plannification/make-planning"> -->
-                <router-link slot="extra" :to="{name : 'Plannification / Plannifier une intervention'}">
+                <!-- <router-link slot="extra" :to="{name : 'Plannification / Plannifier une intervention'}">
                     <a-tag color="#052068">
                         Ajouter un membre d'équipe
                     </a-tag>
-                </router-link>
+                </router-link> -->
+                <a-button slot="extra" color="#052068" type="primary" @click="showModal">
+                    Ajouter un membre d'équipe
+                </a-button>
+                <a-modal v-model="visible" title="Ajouter un membre d'équipe">
+                    <template slot="footer">
+                        <a-button key="submit" type="primary" @click="handleSubmit">
+                            Submit
+                        </a-button>
+                    </template>
+                    <a-form :form="form" layout="horizontal">
+                        <a-form-item
+                            label="Nom"
+                            >
+                            <a-input v-model="newUser.nom" placeholder="Durant" />
+                        </a-form-item>
+                        <a-form-item
+                            label="Prénom"
+                            >
+                            <a-input v-model="newUser.prenom" placeholder="Jean" />
+                        </a-form-item>
+                        <a-form-item
+                            label="Intitulé"
+                            >
+                            <a-input v-model="newUser.intitule" placeholder="Intitulé du poste: Ex. Technicien" />
+                        </a-form-item>
+                        <a-form-item
+                            label="Rôle"
+                            >
+                            <a-select
+                                placeholder="Select a option and change input text above"
+                                v-model="newUser.role"
+                            >
+                                <a-select-option v-for="r in role" v-bind:key=r.id :value="r.value">
+                                {{ r.value }}
+                                </a-select-option>
+                            </a-select>
+                        </a-form-item>
+                    </a-form>
+                </a-modal>
                 <!-- </a> -->
                 <a-table :columns="columns" :data-source="dataUser" :pagination=true>
                     <template
@@ -62,6 +101,21 @@
 </template>
 
 <script>
+const role = [
+    {
+        id: 1,
+        value: "Opérateur"
+    },
+    {
+        id: 2,
+        value: "Responsable"
+    },
+    {
+        id: 3,
+        value: "Manager"
+    },
+]
+
 const columns = [
     // {
     //   title: 'Id',
@@ -135,6 +189,15 @@ export default {
             columns,
             dataUser,
             editingKey: '',
+            visible: false,
+            form: this.$form.createForm(this, { name: 'coordinated' }),
+            role,
+            newUser: {
+                nom: '',
+                prenom: '',
+                intitule: '',
+                role: ''
+            }
         }
     },
 
@@ -184,6 +247,33 @@ export default {
                 Object.assign(target, this.cacheData.filter(item => key === item.key)[0]);
                 delete target.editable;
                 this.dataUser = newDataUser;
+            }
+        },
+        showModal() {
+            this.visible = true;
+        },
+        // handleOk(e) {
+        //     console.log(e);
+        //     this.visible = false;
+        // },
+        handleSubmit(e) {
+            e.preventDefault();
+            this.form.validateFields(() => {
+                this.dataUser.push({
+                    key: this.dataUser.length + 1,
+                    nom: this.newUser.nom,
+                    intitule: this.newUser.intitule,
+                    role: this.newUser.role
+                })
+
+            });
+            console.log(this.dataUser)
+            this.visible = false;
+            this.newUser = {
+                nom: '',
+                prenom: '',
+                intitule: '',
+                role: ''
             }
         },
     }
