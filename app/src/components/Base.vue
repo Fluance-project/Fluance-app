@@ -1,6 +1,6 @@
 <template>
-    <a-layout id="demo-site" style="min-height: 100vh">
-      <a-layout-sider collapsible v-model="collapsed">
+    <a-layout id="fluance" style="min-height: 100vh">
+      <a-layout-sider collapsible v-model="collapsed" width="256">
         <router-link :to="{name:'Tableau-de-bord'}">
           <Logo :collapsed="collapsed" />
         </router-link>
@@ -20,11 +20,11 @@
           <a-sub-menu key="2">
             <span slot="title">
               <a-icon type="calendar" />
-              <span v-if="!collapsed">Plannification</span>
+              <span v-if="!collapsed">Planification</span>
             </span>
             <a-menu-item key="2.1">
               <router-link
-                :to="{name : 'Plannification / Planning d\'intervention',
+                :to="{name : 'Planification / Planning d\'intervention',
                   path: 'planning'
                 }"
               >
@@ -46,15 +46,15 @@
               <a-icon type="hdd" />
               <span v-if="!collapsed">Équipements</span>
             </span>
-            <!-- <a-menu-item key="3">
-              <router-link :to="{path : '/datastories'}">Mes rapports</router-link>
+             <a-menu-item key="3">
+              <router-link :to="{path : '/equipments'}">Vue d'ensemble</router-link>
             </a-menu-item>
             <a-menu-item key="4">
-              <router-link :to="{path : '/new-datastory'}">Créer un rapports</router-link>
+              <router-link :to="{path : '/new-equipment'}">Ajouter un équipement</router-link>
             </a-menu-item>
             <a-menu-item key="5">
-              <router-link :to="{path : '/new-analysis'}">Importer & analyser</router-link>
-            </a-menu-item> -->
+              <router-link :to="{path : '/new-module'}">Modules de suivi</router-link>
+            </a-menu-item>
           </a-sub-menu>
           <a-menu-item key="4">
             <router-link :to="{path : '/membres'}">
@@ -126,7 +126,6 @@ export default {
     data () {
         return {
             collapsed: null,
-            // route: this.$router.currentRoute.name,
         }
     },
     computed: mapState({
@@ -159,7 +158,7 @@ export default {
 #app {
   min-height: 100vh;
 }
-#demo-site {
+#fluance {
   height: 100vh;
 }
 </style>

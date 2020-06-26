@@ -5,6 +5,8 @@ import Login from '../components/Login.vue'
 import Ping from '../components/Ping.vue'
 import Planning from '../components/Plan/Planning.vue'
 import makePlanning from '../components/Plan/Make-Planning.vue'
+import Equipement from '../components/Equipment/Equipment.vue'
+import NewEquipement from '../components/Equipment/New-Equipment.vue'
 import Person from '../components/Person.vue'
 
 Vue.use(Router)
@@ -23,13 +25,23 @@ const router = new Router({
             component: Home
         },
         {
+            path: '/equipments',
+            name: 'Équipements',
+            component: Equipement
+        },
+        {
+            path: '/new-equipment',
+            name: 'Nouvel équipements',
+            component: NewEquipement
+        },
+        {
             path: '/login',
             name: 'Connexion',
             component: Login
         },
         {
             path: '/planning',
-            name: 'Plannification / Planning d\'intervention',
+            name: 'Plnnification / Planning d\'intervention',
             component: Planning
         },
         {
