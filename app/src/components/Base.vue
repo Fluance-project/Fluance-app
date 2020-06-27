@@ -28,7 +28,7 @@
                   path: 'planning'
                 }"
               >
-                  Planning
+                  Planning d'intervention
               </router-link>
             </a-menu-item>
             <a-menu-item key="2.2">
@@ -37,7 +37,7 @@
                   path: 'make-planning'
                 }"
               >
-                Plannifier
+                Plannifier une intervention
               </router-link>
             </a-menu-item>
           </a-sub-menu>
@@ -50,19 +50,16 @@
               <router-link :to="{path : '/equipments'}">Vue d'ensemble</router-link>
             </a-menu-item>
             <a-menu-item key="4">
-              <router-link :to="{path : '/new-equipment'}">Ajouter un équipement</router-link>
-            </a-menu-item>
-            <a-menu-item key="5">
-              <router-link :to="{path : '/new-module'}">Modules de suivi</router-link>
+              <router-link :to="{path : '/module'}">Modules de suivi</router-link>
             </a-menu-item>
           </a-sub-menu>
-          <a-menu-item key="4">
+          <a-menu-item key="5">
             <router-link :to="{path : '/membres'}">
               <a-icon type="team" />
               <span v-if="!collapsed">Membres</span>
             </router-link>
           </a-menu-item>
-          <a-menu-item key="5">
+          <a-menu-item key="6">
             <router-link :to="{path : '/settings2'}">
               <a-icon type="setting" />
               <span v-if="!collapsed">Paramètres</span>
@@ -76,7 +73,7 @@
         </a-menu>
       </a-layout-sider>
       <a-layout>
-        <a-layout-header v-if="isLoggedOn()" style="background: #fff; padding: 0 16px">
+        <a-layout-header v-if="isLoggedOn()" style="background: #fff; padding: 0 16px; box-shadow: 0px 2px 6px -1px rgba(148,148,148,0.15); z-index: 100">
           <a-row type="flex" justify="space-between">
             <a-breadcrumb style="margin: 22px 0 0 0">
               <a-breadcrumb-item>
@@ -103,7 +100,7 @@
           </a-row>
         </a-layout-header>
         <a-layout-content
-          :style="{ margin: '24px 16px', background: 'transparent', minHeight: '280px' }"
+          :style="{ background: 'transparent', minHeight: '280px' }"
         >
           <router-view />
           <!-- <router-view name='Plan' /> -->

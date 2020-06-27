@@ -1,36 +1,37 @@
 <template>
   <!-- <a-layout-content style="margin: 0 0px"> -->
-    <div>
-    <a-row :gutter="10">
-        <a-col :span="8" v-for="i in snapShot" v-bind:key="i.name">
-            <a-card
-                :title="i.name"
-                :bordered="false"
-                align="center"
-            >
-                <a-statistic
-                    :value="i.value"
-                    :precision="i.name != 'Taux de disponibilité' ? 0 : 1"
-                    :value-style="{ color: '#3f8600' }"
-                    :suffix="i.name != 'Taux de disponibilité' ? '' : '%'"
-                    style="margin-right: 50px"
-                ></a-statistic>
-            </a-card>
-        </a-col>
+    <div :style="{padding: '32px 24px'}">
+ 
+  <a-card class="datablock">
+      <a-row>
+      <a-col :span="8">
+        <p>Équipements</p>
+    <h2>2</h2>
+         
+      </a-col>
+      <a-col :span="8">
+          <p>Immobilisations</p>
+          <h2>2</h2> 
+      </a-col>
+      <a-col :span="8">
+         <p>Taux de disponibilité</p>
+          <h2>20%</h2>
+      </a-col>
     </a-row>
+  </a-card>
       <a-row :gutter="10" type="flex" align="middle">
         <a-col :span="12">
           <a-card title="Indicateurs" :bordered="false" style="margin-top: 24px">
             <a slot="extra" href="#">modifier</a>
             <a-row type="flex" justify="space-around">
               <a-col :span="8" align="middle">
-                <a-progress type="circle" :percent="25" :format="() => `MTBM \n 35h`" :width="250" :strokeWidth="10" status="success"/>
+                <a-progress type="circle" :percent="25" :format="() => `MTBM \n 35h`" :width="130" :strokeWidth="7" status="success"/>
               </a-col>
               <a-col :span="8" align="middle">
-                <a-progress type="circle" :percent="35" :format="() => 'MTBM \n 235h'" :width="250" :strokeWidth="10"/>
+                <a-progress type="circle" :percent="35" :format="() => 'MTBM \n 235h'" :width="130" :strokeWidth="7"/>
               </a-col>
               <a-col :span="8" align="middle">
-                <a-progress type="circle" :percent="44" :width="250" :format="() => 'MTTR \n 32h'" :strokeWidth="10" status="exception">
+                <a-progress type="circle" :percent="44" :width="130" :format="() => 'MTTR \n 32h'" :strokeWidth="7" status="exception">
                 </a-progress>
               </a-col>
               <p style="margin-top: 24px">Dernière mise à jour: {{ date }} à {{ hour }}</p>
@@ -296,5 +297,20 @@ export default {
 div.ant-progress-circle,
 div.ant-progress-line {
   margin: 8px;
+}
+.datablock .ant-col{
+     text-align: center;
+}
+.datablock .ant-col:nth-child(2){
+  border-left: solid 1px #E8E8E8;
+  border-right: solid 1px #E8E8E8;
+}
+.datablock p{
+  color: #8C8C8C
+}
+.datablock h2{
+  color: #041627;
+  font-weight: 300;
+  font-size: 1.7em;
 }
 </style>

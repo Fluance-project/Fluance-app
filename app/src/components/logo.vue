@@ -33,7 +33,7 @@ export default {
 
 <style scoped>
 #logo {
-  margin: 16px auto;
+  margin: 24px auto;
   display: block;
   width: 127px;
   height: 26px;

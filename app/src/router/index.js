@@ -6,7 +6,8 @@ import Ping from '../components/Ping.vue'
 import Planning from '../components/Plan/Planning.vue'
 import makePlanning from '../components/Plan/Make-Planning.vue'
 import Equipement from '../components/Equipment/Equipment.vue'
-import NewEquipement from '../components/Equipment/New-Equipment.vue'
+import EquipementDetail from '../components/Equipment/EquipmentDetail.vue'
+import Module from '../components/Equipment/Module.vue'
 import Person from '../components/Person.vue'
 
 Vue.use(Router)
@@ -27,32 +28,55 @@ const router = new Router({
         {
             path: '/equipments',
             name: 'Équipements',
-            component: Equipement
+            component: Equipement,
+            meta: {
+                category: "Equipements"
+            }
         },
         {
-            path: '/new-equipment',
-            name: 'Nouvel équipements',
-            component: NewEquipement
+            path: '/equipments/:id',
+            name: 'Détail de l\'équipements',
+            component: EquipementDetail,
+            meta: {
+                category: "Equipements"
+            }
+        },
+        {
+            path: '/module',
+            name: 'Modules de suivi',
+            component: Module,
+            meta: {
+                category: "Equipements"
+            }
         },
         {
             path: '/login',
             name: 'Connexion',
-            component: Login
+            component: Login,
         },
         {
             path: '/planning',
-            name: 'Plnnification / Planning d\'intervention',
-            component: Planning
+            name: 'Planning d\'intervention',
+            component: Planning,
+            meta: {
+                category: "Planification"
+            }
         },
         {
             path: '/make-planning',
-            name: 'Plannification / Plannifier une intervention',
-            component: makePlanning
+            name: 'Plannifier une intervention',
+            component: makePlanning,
+            meta: {
+                category: "Planification"
+            }
         },
         {
             path: '/membres',
             name: 'Gestion de l\'équipe',
-            component: Person
+            component: Person,
+            meta: {
+                category: "Membres"
+            }
         },
     ]
 });
