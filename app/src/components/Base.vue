@@ -1,6 +1,6 @@
 <template>
-    <a-layout id="demo-site" style="min-height: 100vh">
-      <a-layout-sider collapsible v-model="collapsed">
+    <a-layout id="fluance" style="min-height: 100vh">
+      <a-layout-sider collapsible v-model="collapsed" width="256">
         <router-link :to="{name:'Tableau-de-bord'}">
           <Logo :collapsed="collapsed" />
         </router-link>
@@ -20,15 +20,15 @@
           <a-sub-menu key="2">
             <span slot="title">
               <a-icon type="calendar" />
-              <span v-if="!collapsed">Plannification</span>
+              <span v-if="!collapsed">Planification</span>
             </span>
             <a-menu-item key="2.1">
               <router-link
-                :to="{name : 'Plannification / Planning d\'intervention',
+                :to="{name : 'Planification / Planning d\'intervention',
                   path: 'planning'
                 }"
               >
-                  Planning
+                  Planning d'intervention
               </router-link>
             </a-menu-item>
             <a-menu-item key="2.2">
@@ -37,7 +37,7 @@
                   path: 'make-planning'
                 }"
               >
-                Plannifier
+                Plannifier une intervention
               </router-link>
             </a-menu-item>
           </a-sub-menu>
@@ -46,23 +46,20 @@
               <a-icon type="hdd" />
               <span v-if="!collapsed">Équipements</span>
             </span>
-            <!-- <a-menu-item key="3">
-              <router-link :to="{path : '/datastories'}">Mes rapports</router-link>
+             <a-menu-item key="3">
+              <router-link :to="{path : '/equipments'}">Vue d'ensemble</router-link>
             </a-menu-item>
             <a-menu-item key="4">
-              <router-link :to="{path : '/new-datastory'}">Créer un rapports</router-link>
+              <router-link :to="{path : '/module'}">Modules de suivi</router-link>
             </a-menu-item>
-            <a-menu-item key="5">
-              <router-link :to="{path : '/new-analysis'}">Importer & analyser</router-link>
-            </a-menu-item> -->
           </a-sub-menu>
-          <a-menu-item key="4">
+          <a-menu-item key="5">
             <router-link :to="{path : '/membres'}">
               <a-icon type="team" />
               <span v-if="!collapsed">Membres</span>
             </router-link>
           </a-menu-item>
-          <a-menu-item key="5">
+          <a-menu-item key="6">
             <router-link :to="{path : '/settings2'}">
               <a-icon type="setting" />
               <span v-if="!collapsed">Paramètres</span>
@@ -76,7 +73,7 @@
         </a-menu>
       </a-layout-sider>
       <a-layout>
-        <a-layout-header v-if="isLoggedOn()" style="background: #fff; padding: 0 16px">
+        <a-layout-header v-if="isLoggedOn()" style="background: #fff; padding: 0 16px; box-shadow: 0px 2px 6px -1px rgba(148,148,148,0.15); z-index: 100">
           <a-row type="flex" justify="space-between">
             <a-breadcrumb style="margin: 22px 0 0 0">
               <a-breadcrumb-item>
@@ -103,7 +100,7 @@
           </a-row>
         </a-layout-header>
         <a-layout-content
-          :style="{ margin: '24px 16px', background: 'transparent', minHeight: '280px' }"
+          :style="{ background: 'transparent', minHeight: '280px' }"
         >
           <router-view />
           <!-- <router-view name='Plan' /> -->
@@ -126,17 +123,21 @@ export default {
     data () {
         return {
             collapsed: null,
-            // route: this.$router.currentRoute.name,
         }
     },
     computed: mapState({
-      route: state => state.home.route
+      route: state => state.app.route
     }),
     created: function() {
-        if (!this.isLoggedOn()) {
-        this.collapsed = true;
+        if (this.isLoggedOn()) {
+            // Restore session
+            let session = JSON.parse(localStorage.getItem('fluance-data'));
+            this.$store.dispatch('account/loadUser', session.token);
+            this.$store.dispatch('app/loadJwt', session.token);
+            this.getData();
+          this.collapsed = true;
         } else {
-        this.collapsed = false;
+          this.collapsed = false;
         }
     },
     methods: {
@@ -150,6 +151,9 @@ export default {
         logOut() {
           this.$service.account.logout()
           this.$router.push({ path: '/login'})
+        },
+        getData() {
+            this.$store.dispatch('equipment/loadEquipments', this.$store.getters['account/accountId']);
         }
     }
 }
@@ -159,7 +163,7 @@ export default {
 #app {
   min-height: 100vh;
 }
-#demo-site {
+#fluance {
   height: 100vh;
 }
 </style>

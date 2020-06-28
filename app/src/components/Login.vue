@@ -160,21 +160,16 @@ export default {
           })
           .then(res => {
             if (this.rememberMe === true) {
-              this.$service.account.persistUser({
-                email: this.email,
-                password: this.password
-              })
+              this.$service.account.persist(res.data);
             } else {
               localStorage.removeItem('user')
             }
             this.$service.account.persist(res.data);
-            // stored user and token information
-            this.$store.dispatch('account/token', res.data.token);
             this.$message.success("Bienvenue " + this.account.user);
             this.$router.push({ path: '/'})
           })
-          .catch(err => {
-            this.$message.error(err.message);
+          .catch(() => {
+            this.$message.error("Mauvais identifiant / mot de passe");
           });
       });
     },
@@ -183,9 +178,9 @@ export default {
       this.form.validateFields(() => {
         this.$message.loading("Inscription ...", 0.5);
         if (this.signPassword !== this.samePassword) {
-          this.$message.error("Password should be matched !!!")
+          this.$message.error("Les mots de passe ne correspondent pas.")
         } else if (this.signTerms === false) {
-          this.$message.info("Veuillez accepter les terms !!!")
+          this.$message.info("Veuillez accepter les conditions d'utilisation")
         } else {
           this.$service.account
             .register({
@@ -209,6 +204,7 @@ export default {
                   this.$router.push({ path: '/'})
                 })
                 .catch(err => {
+                  console.log(err);
                   this.$message.error(err.message);
                 });
             })
