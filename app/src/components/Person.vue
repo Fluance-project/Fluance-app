@@ -15,19 +15,19 @@
                 <a-modal v-model="visible" title="Ajouter un membre d'équipe">
                     <template slot="footer">
                         <a-button key="submit" type="primary" @click="handleSubmit">
-                            Submit
+                            Ajouter
                         </a-button>
                     </template>
                     <a-form :form="form" layout="horizontal">
                         <a-form-item
                             label="Nom"
                             >
-                            <a-input v-model="newUser.nom" placeholder="Durant" />
+                            <a-input v-model="newUser.lastName" placeholder="Durant" />
                         </a-form-item>
                         <a-form-item
                             label="Prénom"
                             >
-                            <a-input v-model="newUser.prenom" placeholder="Jean" />
+                            <a-input v-model="newUser.firstName" placeholder="Jean" />
                         </a-form-item>
                         <a-form-item
                             label="Intitulé"
@@ -48,51 +48,29 @@
                         </a-form-item>
                     </a-form>
                 </a-modal>
-                <!-- </a> -->
-                <a-table :columns="columns" :data-source="dataUser" :pagination=true>
-                    <template
-                        v-for="col in ['nom', 'intitule', 'role']"
-                        :slot="col"
-                        slot-scope="text, record"
-                        >
-                        <div :key="col">
-                            <a-input
-                            v-if="record.editable"
-                            style="margin: -5px 0"
-                            :value="text"
-                            @change="e => handleChange(e.target.value, record.key, col)"
-                            />
-                            <template v-else>
-                            {{ text }}
-                            </template>
-                        </div>
-                    </template>
-                    <!-- delete event -->
-                    <template slot="operation" slot-scope="text, record">
-                        <a-popconfirm
-                        v-if="dataUser.length"
-                        title="Sure to delete?"
-                        @confirm="() => onDelete(record.key)"
-                        >
-                        <a href="javascript:;">
-                            <a-icon type="delete" />
-                        </a>
-                        </a-popconfirm>
-                        <a-divider type="vertical" />
-                        <span class="editable-row-operations">
-                            <span v-if="record.editable">
-                            <a @click="() => save(record.key)">Save</a> <a-divider type="vertical" />
-                            <a-popconfirm title="Sure to cancel?" @confirm="() => cancel(record.key)">
-                                <a>Cancel</a>
-                            </a-popconfirm>
-                            </span>
-                            <span v-else>
-                            <a :disabled="editingKey !== ''" @click="() => edit(record.key)">
-                                <a-icon type="edit" />
-                            </a>
-                            </span>
-                        </span>
-                    </template>
+                <a-table :columns="columns" :data-source="members">
+                    <a slot="name" slot-scope="text">{{ text }}</a>
+                    <span slot="customTitle"><a-icon type="smile-o" /> Name</span>
+                    <span slot="tags" slot-scope="tags">
+                    <a-tag
+                        v-for="tag in tags"
+                        :key="tag"
+                        :color="tag === 'loser' ? 'volcano' : tag.length > 5 ? 'geekblue' : 'green'"
+                    >
+                        {{ tag.toUpperCase() }}
+                    </a-tag>
+                    </span>
+                    <template slot="action" slot-scope="text, record">
+                    <a-popconfirm
+                    v-if="members.length"
+                    title="Confirmer la suppression ?"
+                    okText="Oui"
+                    cancelText="Non"
+                    @confirm="() => onDelete(record.user_id.$oid)"
+                    >
+                    <a href="javascript:;">Supprimer</a>
+                    </a-popconfirm>
+                </template>
                 </a-table>
             </a-card>
             </a-col>
@@ -117,77 +95,40 @@ const role = [
 ]
 
 const columns = [
-    // {
-    //   title: 'Id',
-    //   dataIndex: 'id',
-    //   key: 'id',
-    // },
     {
+        title: 'Prénom',
+        dataIndex: 'fistName',
+        key: 'fistName',
+    },
+       {
         title: 'Nom',
-        dataIndex: 'nom',
-        key: 'nom',
-        scopedSlots: { customRender: 'nom' },
+        dataIndex: 'lastName',
+        key: 'lastName',
     },
     {
         title: 'Intitulé',
-        dataIndex: 'intitule',
-        key: 'intitule',
-        scopedSlots: { customRender: 'intitule' },
+        dataIndex: 'title',
+        key: 'title',
     },
     {
         title: 'Rôle',
         dataIndex: 'role',
         key: 'role',
-        scopedSlots: { customRender: 'role' },
     },
     {
         title: 'Operation',
-        dataIndex: 'operation',
-        scopedSlots: { customRender: 'operation'},
+        dataIndex: 'action',
+        scopedSlots: { customRender: 'action'},
     },
 ]
 
-const dataUser = [
-    {
-        key: 1,
-        nom: "Nguyen Khac Bao Anh",
-        intitule: "Software Engineer",
-        role: "Developper"
-    },
-    {
-        key: 2,
-        nom: "Tayeb SAIDI",
-        intitule: "Software Engineer",
-        role: "Developper"
-    },
-    {
-        key: 3,
-        nom: "Lucille FRANCO",
-        intitule: "Marketing Lead",
-        role: "blabla"
-    },
-    {
-        key: 4,
-        nom: "Myriam MASMOUDI",
-        intitule: "Customer Manager",
-        role: "blabla"
-    },
-    {
-        key: 5,
-        nom: "Wladimir DELENCLOS",
-        intitule: "Product Owner",
-        role: "blabla"
-    },
-]
 
+import { mapState } from 'vuex'
 export default {
     name: "Person",
-
     data() {
-        this.cacheData = dataUser.map(item => ({ ...item }));
         return {
             columns,
-            dataUser,
             editingKey: '',
             visible: false,
             form: this.$form.createForm(this, { name: 'coordinated' }),
@@ -200,9 +141,14 @@ export default {
             }
         }
     },
-
-    created() {
+  computed: {
+    ...mapState({
+         members: state => state.member.members,
+    }),
+    },
+    beforeMount() {
         this.$store.dispatch('app/loadRoute', this.$router.currentRoute.name);
+        this.$store.dispatch('member/loadMembers', this.$store.getters['account/accountId']);
     },
     methods: {
         handleChange(value, key, column) {
@@ -213,9 +159,18 @@ export default {
                 this.dataUser = newDataUser;
             }
         },
-        onDelete(key) {
-            const dataUser = [...this.dataUser];
-            this.dataUser = dataUser.filter(item => item.key !== key);
+        sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        },
+        onDelete(data) {
+            console.log(data);
+             this.$store.dispatch('member/deleteMember',  { account_id: this.$store.getters['account/accountId'], data});
+            const hide = this.$message.loading('Suppression...', 0);
+            setTimeout(hide, 500);
+            this.sleep(500).then(() => {
+            this.$message.success('Membre supprimé', 4);
+            this.$store.dispatch('member/loadMembers', this.$store.getters['account/accountId']);
+        })
         },
         edit(key) {
             const newDataUser = [...this.dataUser];
@@ -252,29 +207,16 @@ export default {
         showModal() {
             this.visible = true;
         },
-        // handleOk(e) {
-        //     console.log(e);
-        //     this.visible = false;
-        // },
-        handleSubmit(e) {
-            e.preventDefault();
-            this.form.validateFields(() => {
-                this.dataUser.push({
-                    key: this.dataUser.length + 1,
-                    nom: this.newUser.nom,
-                    intitule: this.newUser.intitule,
-                    role: this.newUser.role
-                })
-
-            });
-            console.log(this.dataUser)
-            this.visible = false;
-            this.newUser = {
-                nom: '',
-                prenom: '',
-                intitule: '',
-                role: ''
+        handleSubmit() {
+            let data = {
+                firstName: this.newUser.firstName,
+                lastName: this.newUser.lastName,
+                intitule: this.newUser.intitule,
+                role: this.newUser.role
             }
+            this.$store.dispatch('member/addMember', { account_id: this.$store.getters['account/accountId'], ...data});
+              this.$store.dispatch('member/loadMembers', this.$store.getters['account/accountId']);
+            this.visible = false;
         },
     }
 }

@@ -153,7 +153,8 @@ export default {
           this.$router.push({ path: '/login'})
         },
         getData() {
-            this.$store.dispatch('equipment/loadEquipments', this.$store.getters['account/accountId']);
+          this.$store.dispatch('equipment/loadEquipments', this.$store.getters['account/accountId']);
+          this.$store.dispatch('member/loadMembers', this.$store.getters['account/accountId']);
         }
     }
 }
