@@ -84,13 +84,14 @@ export default {
     };
   },
   computed: mapState({
-    snapShot: state => state.home.snapShot,
+    snapShot: state => state.app.snapShot,
+    equipment: state => state.equipment.equipment
   }),
    beforeMount() {
-      this.$store.dispatch('home/loadSnapShot')
   },
   created: function() {
-    this.$store.dispatch('home/loadRoute', this.$router.currentRoute.name);
+    this.$store.dispatch('app/loadRoute', this.$router.currentRoute.name);
+    this.$store.dispatch('equipment/loadEquipments', this.$router.currentRoute.name);
   },
   methods: {
     showModal() {

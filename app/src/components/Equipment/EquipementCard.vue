@@ -23,7 +23,7 @@
 <script>
 
 export default {
-  name: "Equipement Card",
+  name: "equipement-card",
   props: {
     lastIntervention: String,
     title: String,

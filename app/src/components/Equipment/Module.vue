@@ -23,10 +23,9 @@ export default {
   computed: mapState({
   }),
   beforeMount() {
-    this.$store.dispatch('home/loadSnapShot')
   },
   created: function() {
-    this.$store.dispatch('home/loadRoute', this.$router.currentRoute.name);
+    this.$store.dispatch('app/loadRoute', this.$router.currentRoute.name);
   },
 };
 </script>

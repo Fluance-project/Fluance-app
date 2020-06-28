@@ -8,17 +8,14 @@ export function isValidJwt (jwt) {
     } else {
         return true
     }
-    // const data = JSON.parse(atob(jwt.split('.')[1]))
-    // const exp = new Date(data.exp * 1000) // one minute
-    // const now = new Date()
-    // return now < exp
 }
 
 export function sparseUserFromToken (token) {
     let acc = JSON.parse(atob(token.split('.')[1]))
     const tokenInfo = {
         user: acc.user,
-        exp: acc.exp
+        exp: acc.exp,
+        id: acc.id,
     }
     return tokenInfo
 } 

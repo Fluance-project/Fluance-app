@@ -54,18 +54,6 @@ export default class AccountService {
         window.localStorage.setItem('fluance-data', JSON.stringify({token: data.token}));
     }
 
-    getPersisted() {
-        if(window.localStorage.getItem('fluance-data')){
-            return window.localStorage.getItem('fluance-data')
-        } else {
-            return false;
-        }
-    }
-
-    persistUser(dataUser) {
-        window.localStorage.setItem('user', JSON.stringify(dataUser));
-    }
-
     getDataUser() {
         if(window.localStorage.getItem('user')){
             return window.localStorage.getItem('user')
@@ -74,26 +62,24 @@ export default class AccountService {
         }
     }
 
-    getAccount(email) {
-        const allAccount = [
-            {
-                id: 1,
-                email: "anh@gmail.com",
-                companyName: "Fluance"
-            },
-            {
-                id: 2,
-                email: "baoanh@gmail.com",
-                companyName: "Fluance"
-            },
-        ]
+    getAccount(data) {
         return new Promise((resolve, reject) => {
-            const currentAccount = allAccount.find(el => el.email == email)
-            if (currentAccount) {
-                resolve(currentAccount)
-            } else {
-                reject("No account existed !!!")
+            axios.get(this.dbUrl + '/api/v1/account', {
+                email: data.email,
+                password: data.password
+            }, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': this.fetchToken()
             }
+            }).then((res) => {
+                if (res) {
+                    resolve(res)
+                } else {
+                    reject("Account doest not exist")
+                }
+            })
+            
         })
     }
 }

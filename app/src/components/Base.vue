@@ -126,10 +126,14 @@ export default {
         }
     },
     computed: mapState({
-      route: state => state.home.route
+      route: state => state.app.route
     }),
     created: function() {
-        if (!this.isLoggedOn()) {
+        if (this.isLoggedOn()) {
+          let session = JSON.parse(localStorage.getItem('fluance-data'));
+          this.$store.dispatch('account/loadUser', session.token);
+          this.$store.dispatch('app/loadJwt', session.token);
+          this.getData();
         this.collapsed = true;
         } else {
         this.collapsed = false;
@@ -146,6 +150,9 @@ export default {
         logOut() {
           this.$service.account.logout()
           this.$router.push({ path: '/login'})
+        },
+        getData() {
+            this.$store.dispatch('equipment/loadEquipments', this.$store.getters['account/accountId']);
         }
     }
 }

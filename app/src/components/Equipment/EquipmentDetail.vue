@@ -42,7 +42,7 @@ import Preview from './EquipementDetail/Preview'
 import History from './EquipementDetail/History'
 import Following from './EquipementDetail/Following'
 export default {
-  name: "Equipement Détail",
+  name: "equipement-detail",
   props: {
   },
   components: {
@@ -56,13 +56,12 @@ export default {
     };
   },
   computed: mapState({
-    snapShot: state => state.home.snapShot,
+    snapShot: state => state.app.snapShot,
   }),
   beforeMount() {
-      this.$store.dispatch('home/loadSnapShot')
   },
   created: function() {
-    this.$store.dispatch('home/loadRoute', this.$router.currentRoute.name);
+    this.$store.dispatch('app/loadRoute', this.$router.currentRoute.name);
   },
   methods: {
   },

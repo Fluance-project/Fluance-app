@@ -19,4 +19,13 @@ export default {
 </script>
 
 <style>
+.ant-card-head-title {
+  font-size: 16px;
+  color: #595959;
+  font-weight: 300;
+}
+
+.ant-table-tbody > tr.ant-table-row-level-0:hover > td  {
+  background-color: #F3F6FC!important;
+}
 </style>

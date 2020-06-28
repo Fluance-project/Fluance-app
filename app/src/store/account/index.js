@@ -3,25 +3,25 @@ import Services from '../../api/services'
 
 const state = {
     user: '',
-    token: '',
     exp: '',
+    id: '',
     userData: {}
 }
 
 const actions = {
 
     login(context, userData) {
-        context.commit('setUserData', { userData })
+
         return Services.account
             .login(userData)
-            .then(res => context.commit('setJwtToken', { jwt: res.data}))
+            .then(res => context.commit('SET_JWT_TOKEN', { jwt: res.data}))
             .catch(error => {
                 console.log('Error Authenticating: ', error)
                 EventBus.$emit('failedAuthentication', error)
               })
     },
     register (context, userData) {
-        context.commit('setUserData', { userData })
+        context.commit('SET_USER_DATA', { userData })
         return Services.account
             .register(userData)
             .then(context.dispatch('login', userData))
@@ -34,42 +34,38 @@ const actions = {
     logout () {
         
     },
-
-    token(context, token) {
-        context.commit('setToken', {token: token})
-        context.commit('setUser', {token: token})
+    loadUser(context, token) {
+        context.commit('SET_USER', {token: token})
     }
 }
 
 const mutations = {
-    setUserData (state, payload) {
-        console.log('setUserData payload = ', payload)
+    SET_USER_DATA (state, payload) {
         state.userData = payload.userData
     },
-    setJwtToken (state, payload) {
-        console.log('setJwtToken payload = ', payload)
+    SET_JWT_TOKEN (state, payload) {
         // localStorage.token = payload.jwt.token
         state.token = payload.jwt.token
         state.user = payload.jwt.user
     },
-    // SET_USER(state, user) {
-    //     state.user = user
-    // },
-    setToken (state, payload) {
-        // console.log("token = ", payload)
-        state.token = payload.token
-    },
-    setUser (state, payload) {
+    SET_USER (state, payload) {
         const tokenInfo = sparseUserFromToken(payload.token)
+        console.log(tokenInfo);
         state.user = tokenInfo.user
         state.exp = tokenInfo.exp
-        // console.log("token info = ", tokenInfo)
-    }
+        state.id = tokenInfo.id
+    },
+    SET_TOKEN (state, payload) {
+        state.token = payload.token
+    },
 }
 
 const getters = {
     isAuthenticated (state) {
-        return isValidJwt(state.jwt.token)
+        return isValidJwt(state.token)
+    },
+    accountId (state) {
+        return state.id
     }
 }
 

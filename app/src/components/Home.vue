@@ -81,9 +81,7 @@
 
 <script>
 
-// import { fetchSnapShot } from '../api'
 import { mapState } from 'vuex'
-// import store from "../state"
 
 const columns = {
   history: [
@@ -236,16 +234,16 @@ export default {
     };
   },
   computed: mapState({
-    snapShot: state => state.home.snapShot,
-    // route: state => state.home.route
+    snapShot: state => state.app.snapShot,
+    // route: state => state.app.route
   }),
   beforeMount() {
-      this.$store.dispatch('home/loadSnapShot')
+
   },
   created: function() {
     // console.log(this.$router.currentRoute.name)
     // this.route = this.$router.currentRoute.name
-    this.$store.dispatch('home/loadRoute', this.$router.currentRoute.name);
+    this.$store.dispatch('app/loadRoute', this.$router.currentRoute.name);
     // let modalSession = localStorage.getItem("welcomeModal");
     // if (modalSession === null || modalSession === true) {
     //   this.showModal();

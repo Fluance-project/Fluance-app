@@ -1,32 +1,20 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-import home from './home'
+import app from './app'
 import account from './account'
+import equipment from './equipment'
+import task from './task'
 
 Vue.use(Vuex)
 
 
 const store = new Vuex.Store({
-    // state: {
-    //     home: home.state,
-    //     account: account.state,
-    // },
-    // actions: {
-    //     ...home.actions,
-    //     ...account.actions,
-    // },
-    // mutations: {
-    //     ...home.mutations,
-    //     ...account.mutations,
-    // },
-    // getters: {
-    //     ...home.getters,
-    //     ...account.getters,
-    // }
     modules: {
-        home: home,
-        account: account
+        app: app,
+        account: account,
+        equipment: equipment,
+        task: task,
     }
 })
 

@@ -139,7 +139,7 @@ export default {
       }
     },
     created() {
-      this.$store.dispatch('home/loadRoute', this.$router.currentRoute.name);
+      this.$store.dispatch('app/loadRoute', this.$router.currentRoute.name);
     },
     methods: {
       edit(key) {
