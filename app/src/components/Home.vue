@@ -6,7 +6,7 @@
       <a-row>
       <a-col :span="8">
         <p>Équipements</p>
-    <h2>2</h2>
+        <h2>{{equipments.length}}</h2>
          
       </a-col>
       <a-col :span="8">
@@ -222,9 +222,6 @@ export default {
   props: {
     msg: String
   },
-  // components: {
-  //   VuePlotly
-  // },
   data() {
     return {
       hour: new Date().getHours(),
@@ -235,57 +232,16 @@ export default {
   },
   computed: mapState({
     snapShot: state => state.app.snapShot,
-    // route: state => state.app.route
+    equipments: state => state.equipment.equipments,
   }),
   beforeMount() {
-
+   this.$store.dispatch('equipment/loadEquipments', this.$store.getters['account/accountId']);
   },
   created: function() {
-    // console.log(this.$router.currentRoute.name)
-    // this.route = this.$router.currentRoute.name
     this.$store.dispatch('app/loadRoute', this.$router.currentRoute.name);
-    // let modalSession = localStorage.getItem("welcomeModal");
-    // if (modalSession === null || modalSession === true) {
-    //   this.showModal();
-    // } else {
-    //   this.handleOk();
-    // }
-    //  let usrData = JSON.parse(localStorage.getItem('fluance-data'));
-    //  this.$store.commit("SET_USER", {
-    //   loggedIn: true,
-      // userData: usrData.usr,
-    //   token: usrData.token
-    // });
-    // setInterval(this.getTime, 1000);
   },
   methods: {
-    // showModal() {
-    //   this.visible = true;
-    // },
-    // handleOk() {
-    //   this.visible = false;
-    // },
-    // closeModal() {
-    //   localStorage.getItem("welcomeModal", false);
-    //   this.handleOk();
-    // },
-    // getTime() {
-    //   let date = new Date();
-    //   let h = date.getHours();
-    //   let m = date.getMinutes();
-    //   let s = date.getSeconds();
-
-    //   if (h < 10) {
-    //     h = "0" + h;
-    //   }
-    //   if (m < 10) {
-    //     m = "0" + m;
-    //   }
-    //   if (s < 10) {
-    //     s = "0" + s;
-    //   }
-    //   this.hour = h + ":" + m + ":" + s;
-    // }
+  
   }
 };
 </script>

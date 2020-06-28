@@ -81,7 +81,7 @@ const data = [
 ];
 import { mapState } from 'vuex'
 export default {
-  name: "Historique Intervention",
+  name: "historique-intervention",
   props: {
   },
   components: {

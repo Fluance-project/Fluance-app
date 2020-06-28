@@ -15,7 +15,7 @@
                 <a-progress type="circle" :percent="44" :width="130" :format="() => 'MTTR \n 32h'" :strokeWidth="7" status="exception">
                 </a-progress>
               </a-col>
-              <p style="margin-top: 24px">Dernière mise à jour: {{ date }} à {{ hour }}</p>
+              <p style="margin-top: 24px">Dernière mise à jour: </p>
             </a-row>
           </a-card>
         </a-col>

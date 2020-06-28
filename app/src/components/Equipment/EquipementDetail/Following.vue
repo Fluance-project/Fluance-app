@@ -81,7 +81,7 @@ const data = [
 ];
 import { mapState } from 'vuex'
 export default {
-  name: "Suivi prévisionnel",
+  name: "suivi-previsionnel",
   props: {
   },
   components: {

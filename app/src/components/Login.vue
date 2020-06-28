@@ -168,8 +168,8 @@ export default {
             this.$message.success("Bienvenue " + this.account.user);
             this.$router.push({ path: '/'})
           })
-          .catch(err => {
-            this.$message.error(err.message);
+          .catch(() => {
+            this.$message.error("Mauvais identifiant / mot de passe");
           });
       });
     },
@@ -204,6 +204,7 @@ export default {
                   this.$router.push({ path: '/'})
                 })
                 .catch(err => {
+                  console.log(err);
                   this.$message.error(err.message);
                 });
             })

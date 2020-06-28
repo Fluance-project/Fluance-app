@@ -130,13 +130,14 @@ export default {
     }),
     created: function() {
         if (this.isLoggedOn()) {
-          let session = JSON.parse(localStorage.getItem('fluance-data'));
-          this.$store.dispatch('account/loadUser', session.token);
-          this.$store.dispatch('app/loadJwt', session.token);
-          this.getData();
-        this.collapsed = true;
+            // Restore session
+            let session = JSON.parse(localStorage.getItem('fluance-data'));
+            this.$store.dispatch('account/loadUser', session.token);
+            this.$store.dispatch('app/loadJwt', session.token);
+            this.getData();
+          this.collapsed = true;
         } else {
-        this.collapsed = false;
+          this.collapsed = false;
         }
     },
     methods: {

@@ -5,28 +5,28 @@
       <a-row>
       <a-col :span="8">
         <p>Équipements</p>
-    <h2>2</h2>
+         <h2>{{equipments.length}}</h2>
          
       </a-col>
       <a-col :span="8">
           <p>Immobilisations</p>
-          <h2>2</h2> 
+          <h2>{{immobilised}}</h2> 
       </a-col>
       <a-col :span="8">
          <p>Taux de disponibilité</p>
-          <h2>20%</h2>
+          <h2>{{getAvailability()}}%</h2>
       </a-col>
     </a-row>
   </a-card>
-  <a-row class="equipement-list" :gutter="16">
-      <a-col :span="8">
+  <a-row class="equipement-list" :gutter="16" style="margin-top: 8px">
+      <a-col :span="8" style="margin-top: 12px">
           <a-card class="add-action" @click="showModal">
               <p> <a-icon type="plus" /> Ajouter</p>
           </a-card>
       </a-col>
-          <router-link v-for="i in  el"  :key="i.index" :to="{path: 'equipments/'+ i.id}" >
-            <a-col :span="8">
-              <EquipementCard :title="i.title" :lastIntervention="i.lastInter" :status="i.status"/>
+          <router-link v-for="i in equipments"  :key="i.index" :to="{path: 'equipments/'+ i._id.$oid}" >
+            <a-col :span="8" style="margin-top: 12px">
+              <EquipementCard :title="i.name" :lastIntervention="i.lastInter" :status="i.status"/>
             </a-col>
           </router-link>
   </a-row>
@@ -36,6 +36,7 @@
       <a-form-item label="Nom de l'équipement">
         <a-input
           placeholder="Saisissez un nom d'équipement"
+          v-model="newValue"
           v-decorator="[
             'nom',
             {
@@ -68,39 +69,46 @@ export default {
     return {
       hour: new Date().getHours(),
       date: new Date().toDateString(),
-      el : [{
-        title: "Test",
-        lastInter: "18/05/1996",
-        status: false,
-        id: "67T8Y90"
-      },
-      {
-        title: "Test2 ",
-        lastInter: "18/05/1996",
-        status: true,
-        id: "77T8Y90"
-      }],
       visible: false,
+      newValue: '',
     };
   },
-  computed: mapState({
+  computed: {
+    ...mapState({
     snapShot: state => state.app.snapShot,
-    equipment: state => state.equipment.equipment
-  }),
-   beforeMount() {
+    equipments: state => state.equipment.equipments,
+    immobilised (state) {
+      let ret = 0;
+      state.equipment.equipments.forEach(element => {
+        if(element.status !== true) {
+          ret += 1;
+        }
+      });
+      return ret;
+    }
+  })
   },
-  created: function() {
+   beforeMount() {
+    this.$store.dispatch('equipment/loadEquipments', this.$store.getters['account/accountId']);
     this.$store.dispatch('app/loadRoute', this.$router.currentRoute.name);
-    this.$store.dispatch('equipment/loadEquipments', this.$router.currentRoute.name);
   },
   methods: {
     showModal() {
       this.visible = true;
     },
-    handleOk(e) {
-      console.log(e);
+    handleOk() {
+      this.$store.dispatch('equipment/addEquipments', 
+        {
+          account_id: this.$store.getters['account/accountId'],
+          name: this.newValue,
+          status: true,
+        });
+      this.$store.dispatch('equipment/loadEquipments', this.$store.getters['account/accountId']);
       this.visible = false;
     },
+    getAvailability(){
+      return parseFloat(100 - (this.immobilised*100/this.equipments.length)).toFixed(2)
+    }
   },
 };
 </script>
