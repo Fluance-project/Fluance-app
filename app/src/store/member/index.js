@@ -25,8 +25,9 @@ const actions = {
             commit('CLEAR_CURRENT_MEMBER')
         })
     },
-    editEMember ({ commit }, account_id, member) {
-        Services.member.editMember(account_id, member)
+    editEMember ({ commit }, payload) {
+        console.log(payload.account_id, payload.member_id, payload.member_data)
+        Services.member.editMember(payload.account_id, payload.member_id, payload.member_data)
         .then((member) => {
             commit('SET_CURRENT_MEMBER', member)
         })

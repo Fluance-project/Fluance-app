@@ -49,7 +49,7 @@
                     </a-form>
                 </a-modal>
                 <a-table :columns="columns" :data-source="members">
-                    <a slot="name" slot-scope="text">{{ text }}</a>
+                    <!-- <a slot="name" slot-scope="text">{{ text }}</a>
                     <span slot="customTitle"><a-icon type="smile-o" /> Name</span>
                     <span slot="tags" slot-scope="tags">
                     <a-tag
@@ -59,18 +59,53 @@
                     >
                         {{ tag.toUpperCase() }}
                     </a-tag>
-                    </span>
+                    </span> -->
+                    <template
+                        v-for="col in ['fistName', 'lastName', 'intitule', 'role']"
+                        :slot="col"
+                        slot-scope="text, record"
+                        >
+                        <div :key="col">
+                            <a-input
+                            v-if="editable"
+                            style="margin: -5px 0"
+                            :value="text"
+                            @change="e => handleChange(e.target.value, record.user_id.$oid, col)"
+                            />
+                            <template v-else>
+                            {{ text }}
+                            </template>
+                        </div>
+                    </template>
                     <template slot="action" slot-scope="text, record">
-                    <a-popconfirm
-                    v-if="members.length"
-                    title="Confirmer la suppression ?"
-                    okText="Oui"
-                    cancelText="Non"
-                    @confirm="() => onDelete(record.user_id.$oid)"
-                    >
-                    <a href="javascript:;">Supprimer</a>
-                    </a-popconfirm>
-                </template>
+                        <a-popconfirm
+                        v-if="members.length"
+                        title="Confirmer la suppression ?"
+                        okText="Oui"
+                        cancelText="Non"
+                        @confirm="() => onDelete(record.user_id.$oid)"
+                        >
+                        <a href="javascript:;">Supprimer</a>
+                        </a-popconfirm>
+                        <a-divider type="vertical" />
+                        <span class="editable-row-operations">
+                            <span v-if="editable">
+                            <a @click="() => save(record.user_id.$oid)">Save</a> <a-divider type="vertical" />
+                            <a-popconfirm
+                                title="Confirmer la suppression ?"
+                                okText="Oui"
+                                cancelText="Non"
+                                @confirm="() => cancel()">
+                                <a>Cancel</a>
+                            </a-popconfirm>
+                            </span>
+                            <span v-else>
+                            <a :disabled="editingKey !== ''" @click="() => edit(record.user_id.$oid)">
+                                <a-icon href="javascript:;" type="edit" />
+                            </a>
+                            </span>
+                        </span>
+                    </template>
                 </a-table>
             </a-card>
             </a-col>
@@ -99,21 +134,25 @@ const columns = [
         title: 'Prénom',
         dataIndex: 'fistName',
         key: 'fistName',
+        scopedSlots: { customRender: 'fistName' },
     },
        {
         title: 'Nom',
         dataIndex: 'lastName',
         key: 'lastName',
+        scopedSlots: { customRender: 'lastName' },
     },
     {
         title: 'Intitulé',
         dataIndex: 'title',
         key: 'title',
+        scopedSlots: { customRender: 'intitule' },
     },
     {
         title: 'Rôle',
         dataIndex: 'role',
         key: 'role',
+        scopedSlots: { customRender: 'role' },
     },
     {
         title: 'Operation',
@@ -130,6 +169,7 @@ export default {
         return {
             columns,
             editingKey: '',
+            editable: false,
             visible: false,
             form: this.$form.createForm(this, { name: 'coordinated' }),
             role,
@@ -152,19 +192,14 @@ export default {
     },
     methods: {
         handleChange(value, key, column) {
-            const newDataUser = [...this.dataUser];
-            const target = newDataUser.filter(item => key === item.key)[0];
-            if (target) {
-                target[column] = value;
-                this.dataUser = newDataUser;
-            }
+            this.newUser[column] = value
         },
         sleep(ms) {
             return new Promise(resolve => setTimeout(resolve, ms));
         },
         onDelete(data) {
             console.log(data);
-             this.$store.dispatch('member/deleteMember',  { account_id: this.$store.getters['account/accountId'], data});
+            this.$store.dispatch('member/deleteMember',  { account_id: this.$store.getters['account/accountId'], data});
             const hide = this.$message.loading('Suppression...', 0);
             setTimeout(hide, 500);
             this.sleep(500).then(() => {
@@ -173,36 +208,37 @@ export default {
         })
         },
         edit(key) {
-            const newDataUser = [...this.dataUser];
-            const target = newDataUser.filter(item => key === item.key)[0];
             this.editingKey = key;
-            if (target) {
-                target.editable = true;
-                this.dataUser = newDataUser;
-            }
+            this.editable = true;
         },
         save(key) {
-            const newDataUser = [...this.dataUser];
-            const newCacheData = [...this.cacheData];
-            const target = newDataUser.filter(item => key === item.key)[0];
-            const targetCache = newCacheData.filter(item => key === item.key)[0];
-            if (target && targetCache) {
-                delete target.editable;
-                this.dataUser = newDataUser;
-                Object.assign(targetCache, target);
-                this.cacheData = newCacheData;
-            }
+            this.$store.dispatch('member/editEMember', {
+                account_id: this.$store.getters['account/accountId'],
+                member_id: key,
+                member_data: this.newUser
+            });
+            this.editable = false;
             this.editingKey = '';
+            
+            const hide = this.$message.loading('Updating...', 0);
+            setTimeout(hide, 500);
+            this.sleep(500).then(() => {
+            this.$message.success('Membre updated', 4);
+            this.$store.dispatch('member/loadMembers', this.$store.getters['account/accountId']);
+            })
+            this.initNewUser();
         },
-        cancel(key) {
-            const newDataUser = [...this.dataUser];
-            const target = newDataUser.filter(item => key === item.key)[0];
+        cancel() {
+            this.editable = false;
             this.editingKey = '';
-            if (target) {
-                Object.assign(target, this.cacheData.filter(item => key === item.key)[0]);
-                delete target.editable;
-                this.dataUser = newDataUser;
-            }
+            // const newDataUser = [...this.dataUser];
+            // const target = newDataUser.filter(item => key === item.key)[0];
+            // this.editingKey = '';
+            // if (target) {
+            //     Object.assign(target, this.cacheData.filter(item => key === item.key)[0]);
+            //     delete target.editable;
+            //     this.dataUser = newDataUser;
+            // }
         },
         showModal() {
             this.visible = true;
@@ -215,9 +251,19 @@ export default {
                 role: this.newUser.role
             }
             this.$store.dispatch('member/addMember', { account_id: this.$store.getters['account/accountId'], ...data});
-              this.$store.dispatch('member/loadMembers', this.$store.getters['account/accountId']);
+            this.$store.dispatch('member/loadMembers', this.$store.getters['account/accountId']);
             this.visible = false;
+            this.initNewUser();
         },
+        initNewUser() {
+            // initial form
+            this.newUser = {
+                nom: '',
+                prenom: '',
+                intitule: '',
+                role: ''
+            }
+        }
     }
 }
 </script>

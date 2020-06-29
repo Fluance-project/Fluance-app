@@ -85,9 +85,9 @@ export default class MemberService {
         })
     }
 
-    editMember(account_id, member_data) {
+    editMember(account_id, user_id, member_data) {
         return new Promise((resolve, reject) => {
-            const path = this.dbUrl + '/api/v1/account/'+ account_id + '/user/' + member_data.id;
+            const path = this.dbUrl + '/api/v1/account/'+ account_id + '/user/' + user_id;
             axios({
                 url: path,
                 method: 'put',
