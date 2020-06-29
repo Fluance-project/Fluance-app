@@ -50,6 +50,9 @@ const mutations = {
         state.current = member
     },
     ADD_MEMBER (state, member) {
+        if(state.members == undefined){
+            state.members = [];
+        }
         state.members.push(member)
     },
 }
