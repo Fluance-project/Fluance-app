@@ -17,7 +17,7 @@ export default class MemberService {
                 },
             })
             .then((res) => {
-                resolve(res.data.users);
+                resolve(res.data.user);
             })
             .catch((error) => {
                 reject(error);
