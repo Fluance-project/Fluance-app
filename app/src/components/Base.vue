@@ -6,7 +6,7 @@
         </router-link>
         <a-menu theme="dark" :defaultSelectedKeys="['1']" mode="inline" v-if="isLoggedOn()">
           <a-menu-item key="0">
-            <router-link :to="{name:'Tableau-de-bord'}">
+            <router-link :to="{path:'/'}">
               <a-icon type="dashboard" />
               <span v-if="!collapsed">Tableau de bord</span>
             </router-link>
@@ -24,8 +24,8 @@
             </span>
             <a-menu-item key="2.1">
               <router-link
-                :to="{name : 'Planification / Planning d\'intervention',
-                  path: 'planning'
+                :to="{
+                  path: '/planning'
                 }"
               >
                   Planning d'intervention
@@ -33,8 +33,8 @@
             </a-menu-item>
             <a-menu-item key="2.2">
               <router-link
-                :to="{name : 'Plannification / Plannifier une intervention',
-                  path: 'make-planning'
+                :to="{
+                  path: '/make-planning'
                 }"
               >
                 Plannifier une intervention
@@ -153,7 +153,8 @@ export default {
           this.$router.push({ path: '/login'})
         },
         getData() {
-            this.$store.dispatch('equipment/loadEquipments', this.$store.getters['account/accountId']);
+          this.$store.dispatch('equipment/loadEquipments', this.$store.getters['account/accountId']);
+          this.$store.dispatch('member/loadMembers', this.$store.getters['account/accountId']);
         }
     }
 }

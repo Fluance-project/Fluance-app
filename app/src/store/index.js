@@ -5,6 +5,7 @@ import app from './app'
 import account from './account'
 import equipment from './equipment'
 import task from './task'
+import member from './member'
 
 Vue.use(Vuex)
 
@@ -15,6 +16,7 @@ const store = new Vuex.Store({
         account: account,
         equipment: equipment,
         task: task,
+        member: member,
     }
 })
 

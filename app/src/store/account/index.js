@@ -44,13 +44,11 @@ const mutations = {
         state.userData = payload.userData
     },
     SET_JWT_TOKEN (state, payload) {
-        // localStorage.token = payload.jwt.token
         state.token = payload.jwt.token
         state.user = payload.jwt.user
     },
     SET_USER (state, payload) {
         const tokenInfo = sparseUserFromToken(payload.token)
-        console.log(tokenInfo);
         state.user = tokenInfo.user
         state.exp = tokenInfo.exp
         state.id = tokenInfo.id

@@ -29,12 +29,13 @@
                             </a-form-item>
                             <a-form-item label="Équipements">
                                 <a-select
-                                    v-decorator="[
-                                    'select',
-                                    { rules: [{ required: true, message: 'Selectionne équipement' }] },
-                                    ]"
-                                    placeholder="Selectionne équipement"
+                                    label-in-value
+                                    style="width: 100%"
+                                    @change="handleChange"
                                 >
+                                    <a-select-option v-for="(el, index) in equipment" v-bind:key="index" :value="el.id">
+                                        {{el.name}}
+                                    </a-select-option>
                                 </a-select>
                             </a-form-item>
                             <a-form-item label="Type d'intervention">
@@ -78,24 +79,26 @@
                                     placeholder="DD/MM/YYYY HH:mm"
                                 />
                             </a-form-item>
-                            <a-form-item label="Supperviseur">
-                                <a-select
-                                    v-decorator="[
-                                    'select',
-                                    { rules: [{ required: true, message: 'Choisissez un superviseur' }] },
-                                    ]"
-                                    placeholder="Choisissez un superviseur"
+                            <a-form-item label="Superviseur">
+                                 <a-select
+                                    label-in-value
+                                    style="width: 100%"
+                                    @change="handleChange"
                                 >
+                                    <a-select-option v-for="(el, index) in member" v-bind:key="index" :value="el.id">
+                                        {{el.fistName}}  {{el.lastName}}
+                                    </a-select-option>
                                 </a-select>
                             </a-form-item>
                             <a-form-item label="Attribué">
-                                <a-select
-                                    v-decorator="[
-                                    'select',
-                                    { rules: [{ required: true, message: 'Choisissez un technicien attribué' }] },
-                                    ]"
-                                    placeholder="Choisissez un technicien attribué"
+                               <a-select
+                                    label-in-value
+                                    style="width: 100%"
+                                    @change="handleChange"
                                 >
+                                    <a-select-option v-for="(el, index) in member" v-bind:key="index" :value="el.id">
+                                        {{el.fistName}}  {{el.lastName}}
+                                    </a-select-option>
                                 </a-select>
                             </a-form-item>
                             <a-form-item label="Immobilisation">
@@ -168,7 +171,10 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 export default {
+    name: "Planifier une intervention",
     data() {
         return {
             current: 0,
@@ -191,6 +197,10 @@ export default {
             },
         };
   },
+  computed: mapState({
+    equipment: state => state.equipment.equipments,
+    member: state => state.member.members
+  }),
   created() {
         this.$store.dispatch('app/loadRoute', this.$router.currentRoute.name);
     },

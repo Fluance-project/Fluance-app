@@ -22,7 +22,7 @@ const router = new Router({
         },
         {
             path: '/',
-            name: 'Tableau-de-bord',
+            name: 'Tableau de bord',
             component: Home
         },
         {
@@ -56,7 +56,7 @@ const router = new Router({
         },
         {
             path: '/planning',
-            name: 'Planning d\'intervention',
+            name: "Planning d'intervention",
             component: Planning,
             meta: {
                 category: "Planification"
@@ -64,7 +64,7 @@ const router = new Router({
         },
         {
             path: '/make-planning',
-            name: 'Plannifier une intervention',
+            name: 'Planifier une intervention',
             component: makePlanning,
             meta: {
                 category: "Planification"

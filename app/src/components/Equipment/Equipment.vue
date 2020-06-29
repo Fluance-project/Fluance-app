@@ -58,7 +58,7 @@
 import { mapState } from 'vuex'
 import EquipementCard from './EquipementCard'
 export default {
-  name: "Equipement",
+  name: "equipement",
   props: {
     msg: String
   },

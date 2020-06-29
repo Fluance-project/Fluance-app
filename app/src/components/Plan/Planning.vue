@@ -129,7 +129,7 @@ const data = [
     },
 ]
 export default {
-    name: "Planning",
+    name: "Planning d'intervention",
     data() {
       this.cacheData = data.map(item => ({ ...item }));
       return {

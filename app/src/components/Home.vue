@@ -218,7 +218,7 @@ const data = {
 
 
 export default {
-  name: "Home",
+  name: "Tableau de Bord",
   props: {
     msg: String
   },

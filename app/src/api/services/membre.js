@@ -1,23 +1,83 @@
 import axios from 'axios';
-import AccountService from 'accounts.js';
+import utils from '../utils';
 
-export default class MembreService {
+export default class MemberService {
     constructor(context) {
         this.dbUrl = `${context.server_uri}:${context.server_port}`;
     }
 
-    getAccountParent(email) {
-        accId = new AccountService().getAccount(email)
+    getMembersByAccount(id) {
         return new Promise((resolve, reject) => {
-            axios.get(this.dbUrl + `'/api/v1/account/${accId.id}'`, {
+            const path = this.dbUrl + '/api/v1/account/'+ id;
+            axios({
+                url: path,
+                method: 'get',
                 headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer '
-                }
+                  'Authorization': utils.fetchToken()
+                },
             })
             .then((res) => {
+                resolve(res.data.users);
+            })
+            .catch((error) => {
+                reject(error);
+                console.error(error);
+            });
+        })
+    }
 
-                resolve(res);
+    getMemberById(account_id, member_id) {
+        return new Promise((resolve, reject) => {
+            const path = this.dbUrl + '/api/v1/account/'+ account_id + '/user/' + member_id;
+            axios({
+                url: path,
+                method: 'get',
+                headers: {
+                  'Authorization': utils.fetchToken()
+                },
+            })
+            .then((res) => {
+                resolve(res.data);
+            })
+            .catch((error) => {
+                reject(error);
+            });
+        })
+    }
+
+    deleteMemberById (account_id, user_id) {
+        return new Promise((resolve, reject) => {
+            const path = this.dbUrl + '/api/v1/account/'+ account_id + '/user/' + user_id;
+            axios.delete(path,
+            {
+                headers: {
+                  'Authorization': utils.fetchToken(),
+                  'Content-Type': 'application/json',
+                },
+            })
+            .then((res) => {
+                resolve(res.data);
+            })
+            .catch((error) => {
+                reject(error);
+            });
+        })
+    }
+
+    addMember(data) {
+        return new Promise((resolve, reject) => {
+            const path = this.dbUrl + '/api/v1/account/'+ data.account_id + '/user';
+            axios({
+                url: path,
+                method: 'post',
+                data: data,
+                headers: {
+                  'Authorization': utils.fetchToken(),
+                  'Content-Type': 'application/json',
+                },
+            })
+            .then((res) => {
+                resolve(res, data);
             })
             .catch((err) => {
                 reject(err);
@@ -25,23 +85,24 @@ export default class MembreService {
         })
     }
 
-    addUser(account_id) {
+    editMember(account_id, member_data) {
         return new Promise((resolve, reject) => {
-            axios.post(this.dbUrl + `'/api/v1/account/${account_id}/user'`, {
-                email: data.email,
-                password: data.password
-            }, {
+            const path = this.dbUrl + '/api/v1/account/'+ account_id + '/user/' + member_data.id;
+            axios({
+                url: path,
+                method: 'put',
+                data: member_data,
                 headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer '
-                }
+                  'Authorization': utils.fetchToken(),
+                  'Content-Type': 'application/json',
+                },
             })
             .then((res) => {
-                resolve(res);
+                resolve(res.data);
             })
-            .catch((err) => {
-                reject(err);
-            })
+            .catch((error) => {
+                reject(error);
+            });
         })
     }
 }

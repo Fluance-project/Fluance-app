@@ -1,5 +1,6 @@
 import axios from 'axios';
 import utils from '../utils';
+
 export default class EquipmentService {
     constructor(context) {
         this.dbUrl = `${context.server_uri}:${context.server_port}`;
