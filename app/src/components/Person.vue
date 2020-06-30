@@ -3,12 +3,6 @@
       <a-row :gutter="10">
           <a-col :span="24">
             <a-card title="Membres de l'équipe" :bordered="false" style="margin-top: 24px; margin-bottom: 24px">
-                <!-- <a slot="extra" href="/plannification/make-planning"> -->
-                <!-- <router-link slot="extra" :to="{name : 'Plannification / Plannifier une intervention'}">
-                    <a-tag color="#052068">
-                        Ajouter un membre d'équipe
-                    </a-tag>
-                </router-link> -->
                 <a-button slot="extra" color="#052068" type="primary" @click="showModal">
                     Ajouter un membre d'équipe
                 </a-button>
@@ -49,17 +43,6 @@
                     </a-form>
                 </a-modal>
                 <a-table :columns="columns" :data-source="members">
-                    <!-- <a slot="name" slot-scope="text">{{ text }}</a>
-                    <span slot="customTitle"><a-icon type="smile-o" /> Name</span>
-                    <span slot="tags" slot-scope="tags">
-                    <a-tag
-                        v-for="tag in tags"
-                        :key="tag"
-                        :color="tag === 'loser' ? 'volcano' : tag.length > 5 ? 'geekblue' : 'green'"
-                    >
-                        {{ tag.toUpperCase() }}
-                    </a-tag>
-                    </span> -->
                     <template
                         v-for="col in ['fistName', 'lastName', 'intitule', 'role']"
                         :slot="col"
@@ -219,7 +202,7 @@ export default {
             });
             this.editable = false;
             this.editingKey = '';
-            
+
             const hide = this.$message.loading('Updating...', 0);
             setTimeout(hide, 500);
             this.sleep(500).then(() => {
@@ -231,14 +214,6 @@ export default {
         cancel() {
             this.editable = false;
             this.editingKey = '';
-            // const newDataUser = [...this.dataUser];
-            // const target = newDataUser.filter(item => key === item.key)[0];
-            // this.editingKey = '';
-            // if (target) {
-            //     Object.assign(target, this.cacheData.filter(item => key === item.key)[0]);
-            //     delete target.editable;
-            //     this.dataUser = newDataUser;
-            // }
         },
         showModal() {
             this.visible = true;
