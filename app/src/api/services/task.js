@@ -82,7 +82,7 @@ export default class TaskService {
                 }
             })
             .then((res) => {
-                resolve(res, task_data);
+                resolve(res.data);
             })
             .catch((error) => {
                 reject(error);

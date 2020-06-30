@@ -3,7 +3,8 @@ import Services from '../../api/services';
 const state = {
     tasksByMachine: [],
     tasksByAccount: [],
-    tasks: []
+    tasks: [],
+    currentTask: {}
 }
 
 const actions = {
@@ -32,8 +33,22 @@ const actions = {
     },
     addTask ({commit}, payload) {
         Services.task.addTask(payload.task_data)
-        .then(() => {
-            commit('ADD_TASKS', payload.task_data)
+        .then((res) => {
+            console.log(res.id.$oid)
+            const task_id = res.id.$oid
+            Services.task.getTask(task_id)
+            .then((current_task_data) => {
+                commit('SET_CURRENT_TASK', current_task_data)
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+        })
+    },
+    getTask ({commit}, task_id) {
+        Services.task.getTask(task_id)
+        .then((task) => {
+            commit('SET_CURRENT_TASK', task)
         })
     }
     
@@ -61,11 +76,16 @@ const mutations = {
             el => el["_id"]["$oid"] === task_id
         )
     },
+    SET_CURRENT_TASK (state, task) {
+        state.currentTask = task
+    }
 }
 
 const getters = {
     tasksByMachine: state => state.tasksByMachine,
     tasksByAccount: state => state.tasksByAccount,
+    tasks: state => state.tasks,
+    currentTask: state => state.currentTask
 }
 
 const task = {

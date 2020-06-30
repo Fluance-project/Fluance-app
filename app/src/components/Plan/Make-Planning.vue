@@ -110,21 +110,20 @@
                             <a-result
                                 status="success"
                                 title="Intervention plannifiée"
-                                sub-title="numéro de ticket: #1233"
+                                sub-title="Ticket crée"
                             ></a-result>
                             <a-descriptions title="Tiket Info" layout="vertical">
                                 <a-descriptions-item label="Équipement:">
-                                Siemens Prechauf
+                                {{this.newTask.machine_id.label}}
                                 </a-descriptions-item>
                                 <a-descriptions-item label="Responsable:">
-                                Adrien Deleclos
+                                {{this.newTask.assigned.label}}
                                 </a-descriptions-item>
                                 <a-descriptions-item label="Type d’intervention:">
-                                Correctif
+                                {{this.newTask.type}}
                                 </a-descriptions-item>
                                 <a-descriptions-item label="Détails" span="2">
-                                Immobilisation: requise
-                                Il faut faire ci, faire ça etc etc
+                                {{this.newTask.description}}
                                 </a-descriptions-item>
                                 <a-descriptions-item label="Remarque">
                                 empty
@@ -224,12 +223,14 @@ export default {
                 supervisor: '',
                 assigned: ''
             },
-            typeIntervention
+            typeIntervention,
+            taskInfo: this.$store.getters['task/currentTask']
         };
     },
     computed: mapState({
         equipment: state => state.equipment.equipments,
-        member: state => state.member.members
+        member: state => state.member.members,
+        task: state => state.task
     }),
     beforeMount() {
         this.$store.dispatch('app/loadRoute', this.$router.currentRoute.name);
@@ -240,7 +241,7 @@ export default {
         },
         onChange() {
             this.$message.success('Processing complete!')
-            // console.log(this.newTask)
+            console.log(this.newTask)
             // console.log(this.newTask.start_date.format() + 'Z' + this.newTask.start_date.format("ZZ"))
             // console.log(this.newTask.assigned.key)
             this.current++
