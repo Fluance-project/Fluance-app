@@ -30,7 +30,7 @@
                     {{ s.toUpperCase() }}
                     </a-tag>
                 </span>
-                <template slot="status" slot-scope="text, record">
+                <template slot="operation" slot-scope="text, record">
                   <div class="editable-row-status">
                     <span v-if="record.editable">
                       <a @click="() => save(record.key)">Save</a>
@@ -83,6 +83,11 @@ const columns = [
       dataIndex: 'status',
       key: 'status',
       scopedSlots: { customRender: 'status' },
+    },
+    {
+      title: 'Operation',
+      dataIndex: 'operation',
+      key: 'operation'
     },
 ]
 

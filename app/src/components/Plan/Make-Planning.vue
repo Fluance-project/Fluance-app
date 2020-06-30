@@ -5,17 +5,9 @@
             <a-card title="" :bordered="false" style="margin-top: 24px; margin-bottom: 24px">
                 <a-row>
                     <a-col :span="12" :offset="6">
-                        <!-- <a-steps v-model="current" :current="current" change="onChange">
-                        <a-step title="Informations" description="This is a description." />
-                        <a-step title="Date et options" description="This is a description." />
-                        <a-step title="Confirmation" description="This is a description." />
-                        </a-steps> -->
                         <a-steps :current="current">
                             <a-step v-for="item in steps" :key="item.title" :title="item.title" />
                         </a-steps>
-                        <!-- <div class="steps-content">
-                            {{ steps[current].content === "First-content" ? "Hello" : "Hi" }}
-                        </div> -->
                     </a-col>
                 </a-row>
                 <a-row>
@@ -31,7 +23,7 @@
                                 <a-select
                                     label-in-value
                                     style="width: 100%"
-                                    @change="handleChange"
+                                    v-model="newTask.machine_id"
                                 >
                                     <a-select-option v-for="(el, index) in equipment" v-bind:key="index" :value="el.id">
                                         {{el.name}}
@@ -45,27 +37,21 @@
                                     { rules: [{ required: true, message: 'Selectionne type d\'intervention' }] },
                                     ]"
                                     placeholder="Selectionne type d'intervention"
+                                    v-model="newTask.type"
                                 >
-                                    <a-select-option value="préventive">
-                                    Préventive
-                                    </a-select-option>
-                                    <a-select-option value="prévisionelle">
-                                    Prévisionelle
-                                    </a-select-option>
-                                    <a-select-option value="périodique">
-                                    Périodique
-                                    </a-select-option>
-                                    <a-select-option value="corrective">
-                                    Corrective
-                                    </a-select-option>
-                                    <a-select-option value="conditionelle">
-                                    Conditionelle
+                                    <a-select-option
+                                        v-for="t in ['PREVISIONELLE', 'PERIODIQUE', 'CORRECTIVE', 'PREVENTIVE', 'CONDITIONELLE']"
+                                        v-bind:key="typeIntervention[t]['TYPE']"
+                                        :value="typeIntervention[t]['TYPE']"
+                                    >
+                                        {{ typeIntervention[t]['NAME'] }}
                                     </a-select-option>
                                 </a-select>
                             </a-form-item>
                             <a-form-item label="Description">
                                 <a-textarea
                                     placeholder="Saisissez les détails, les conditions de réparation et les buts de l’intervention"
+                                    v-model="newTask.description"
                                 ></a-textarea>
                             </a-form-item>
                         </a-form>
@@ -75,17 +61,18 @@
                                 <a-date-picker
                                     v-decorator="['date-time-picker', config]"
                                     show-time
-                                    format="DD/MM/YYYY HH:mm"
+                                    format="DD-MM-YYYYTHH:mm:ss[Z]ZZ"
                                     placeholder="DD/MM/YYYY HH:mm"
+                                    v-model="newTask.start_date"
                                 />
                             </a-form-item>
                             <a-form-item label="Superviseur">
                                  <a-select
                                     label-in-value
                                     style="width: 100%"
-                                    @change="handleChange"
+                                    v-model="newTask.supervisor"
                                 >
-                                    <a-select-option v-for="(el, index) in member" v-bind:key="index" :value="el.id">
+                                    <a-select-option v-for="(el, index) in member" v-bind:key="index" :value="el.user_id['$oid']">
                                         {{el.fistName}}  {{el.lastName}}
                                     </a-select-option>
                                 </a-select>
@@ -94,9 +81,9 @@
                                <a-select
                                     label-in-value
                                     style="width: 100%"
-                                    @change="handleChange"
+                                    v-model="newTask.assigned"
                                 >
-                                    <a-select-option v-for="(el, index) in member" v-bind:key="index" :value="el.id">
+                                    <a-select-option v-for="(el, index) in member" v-bind:key="index" :value="el.user_id['$oid']">
                                         {{el.fistName}}  {{el.lastName}}
                                     </a-select-option>
                                 </a-select>
@@ -108,7 +95,14 @@
                                     { rules: [{ required: true, message: 'Selectionner une réponse' }] },
                                     ]"
                                     placeholder="Selectionner une réponse"
+                                    v-model="newTask.immobilised"
                                 >
+                                    <a-select-option :value="true">
+                                        Oui
+                                    </a-select-option>
+                                    <a-select-option :value="false">
+                                        Non
+                                    </a-select-option>
                                 </a-select>
                             </a-form-item>
                         </a-form>
@@ -171,7 +165,30 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState } from 'vuex';
+
+const typeIntervention = {
+    PREVISIONELLE: {
+        NAME: "Prévisionelle",
+        TYPE: 0
+    },
+    PERIODIQUE: {
+        NAME: "Périodique",
+        TYPE: 1
+    },
+    CORRECTIVE: {
+        NAME: "Corrective",
+        TYPE: 2
+    },
+    PREVENTIVE: {
+        NAME: "Préventive",
+        TYPE: 3
+    },
+    CONDITIONELLE: {
+        NAME: "Conditionelle",
+        TYPE: 4
+    },
+}
 
 export default {
     name: "Planifier une intervention",
@@ -195,28 +212,66 @@ export default {
             config: {
                 rules: [{ type: 'object', required: true, message: 'Please select time!' }],
             },
+            newTask: {
+                type: Number,
+                description: '',
+                start_date: '',
+                isClosed: false,
+                end_date: null,
+                immobilised: Boolean,
+                machine_id: '',
+                account_id: '',
+                supervisor: '',
+                assigned: ''
+            },
+            typeIntervention
         };
-  },
-  computed: mapState({
-    equipment: state => state.equipment.equipments,
-    member: state => state.member.members
-  }),
-  created() {
+    },
+    computed: mapState({
+        equipment: state => state.equipment.equipments,
+        member: state => state.member.members
+    }),
+    beforeMount() {
         this.$store.dispatch('app/loadRoute', this.$router.currentRoute.name);
     },
-  methods: {
-    onChange() {
-        this.$message.success('Processing complete!')
-        this.current++
-    },
-    next() {
-      this.current++;
-    },
-    prev() {
-      this.current--;
-    },
+    methods: {
+        sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        },
+        onChange() {
+            this.$message.success('Processing complete!')
+            // console.log(this.newTask)
+            // console.log(this.newTask.start_date.format() + 'Z' + this.newTask.start_date.format("ZZ"))
+            // console.log(this.newTask.assigned.key)
+            this.current++
+            const task_data = {
+                type: this.newTask.type,
+                description: this.newTask.description,
+                start_date: this.newTask.start_date.format("YYYY-MM-DDTHH:mm:ss") + 'Z' + this.newTask.start_date.format("ZZ"),
+                isClosed: false,
+                end_date: null,
+                immobilised: this.newTask.immobilised,
+                machine_id: this.newTask.machine_id.key,
+                account_id: this.$store.getters['account/accountId'],
+                supervisor: this.newTask.supervisor.key,
+                assigned: this.newTask.assigned.key
+            }
+            // console.log(task_data)
+            const hide = this.$message.loading('Creating...', 0);
+            setTimeout(hide, 500);
+            this.sleep(500).then(() => {
+                this.$message.success('Task added', 4);
+                this.$store.dispatch('task/addTask', {task_data: task_data})
+            })
+        },
+        next() {
+        this.current++;
+        },
+        prev() {
+        this.current--;
+        },
 
-  },
+    },
 }
 </script>
 
