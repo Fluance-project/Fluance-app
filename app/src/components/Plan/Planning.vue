@@ -14,6 +14,11 @@
                   :columns="columns"
                   :data-source="tasksByAccount"
                   :pagination=true>
+                  <!-- <span slot="id" slot-scope="text"> -->
+                    <router-link slot="id" slot-scope="text" :to="{name : 'Planifier une intervention'}">
+                      {{text}}
+                    </router-link>
+                  <!-- </span> -->
                   <span slot="type" slot-scope="type">
                       <a-tag
                       v-for="t in [type]"
@@ -92,6 +97,7 @@ const columns = [
       title: 'Id',
       dataIndex: '_id.$oid',
       key: '_id.$oid',
+      scopedSlots: { customRender: 'id' },
     },
     {
       title: 'Equipement',
