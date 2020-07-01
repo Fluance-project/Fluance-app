@@ -2,6 +2,7 @@ import Services from '../../api/services';
 
 const state = {
     tasksByMachine: [],
+    tasksModified: [],
     tasksByAccount: [],
     tasks: [],
     currentTask: {}
@@ -11,9 +12,23 @@ const actions = {
     loadTasksByAccount ({commit}, account_id) {
         Services.task.getTasksByAccount(account_id)
         .then((tasks) => {
-            console.log(tasks);
+            tasks.map(el => {
+                Services.equipment.getMachineById(el.machine_id.$oid)
+                                .then((res) => {
+                                    el.machine_name = res.name
+                                })
+                Services.member.getMemberById(el.account_id.$oid, el.assigned)
+                                .then((res) => {
+                                    el.assigne_name = res.user[0].fistName + ' ' + res.user[0].lastName
+                                })
+                el.start_date = new Date(el.start_date*1000).toISOString()
+            })
+            console.log(tasks)
             commit('SET_TASKS_BY_ACCOUNT', tasks)
         })
+    },
+    addFieldTask ({commit}, tasks) {
+        commit('ADD_FIELD_TASK', tasks)
     },
     loadTasksByMachine ({commit}, machine_id) {
         Services.task.getTasksByMachine(machine_id)
@@ -78,12 +93,16 @@ const mutations = {
     },
     SET_CURRENT_TASK (state, task) {
         state.currentTask = task
+    },
+    ADD_FIELD_TASK (state, tasks) {
+        state.tasksModified = tasks
     }
 }
 
 const getters = {
     tasksByMachine: state => state.tasksByMachine,
     tasksByAccount: state => state.tasksByAccount,
+    tasksModified: state => state.tasksModified,
     tasks: state => state.tasks,
     currentTask: state => state.currentTask
 }

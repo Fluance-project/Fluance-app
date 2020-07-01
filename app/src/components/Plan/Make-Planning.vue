@@ -146,13 +146,11 @@
                             <a-button v-if="current > 0 && current <= steps.length - 2" style="margin-left: 8px" @click="prev">
                                 Previous
                             </a-button>
-                            <button
-                                v-if="current > steps.length - 2"
-                                type="primary"
-                                align="middle"
-                            >
-                                Voir le planning
-                            </button>
+                            <router-link :to="{name : 'Planning d\'intervention'}">
+                                <a-tag color="#052068" v-if="current > steps.length - 2">
+                                    Voir le planning
+                                </a-tag>
+                            </router-link>
                             </a-col>
                         </a-row>
                     </a-col>
