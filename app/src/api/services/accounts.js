@@ -47,11 +47,11 @@ export default class AccountService {
     }
 
     logout() {
-        window.localStorage.removeItem('fluance-data');
+        window.localStorage.removeItem('fluance');
     }
 
     persist(data) {
-        window.localStorage.setItem('fluance-data', JSON.stringify({token: data.token}));
+        window.localStorage.setItem('fluance', JSON.stringify({token: data.token}));
     }
 
     getDataUser() {

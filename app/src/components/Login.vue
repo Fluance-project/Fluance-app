@@ -167,6 +167,7 @@ export default {
             this.$service.account.persist(res.data);
             // update token
             this.$store.dispatch('app/loadJwt', {jwt: res.data.token})
+            window.localStorage.setItem('fluance', JSON.stringify(res.data.token));
             this.$message.success("Bienvenue " + this.account.user);
             this.$router.push({ path: '/'})
           })
@@ -201,7 +202,8 @@ export default {
                 .then(res => {
                   this.$service.account.persist(res.data);
                   // stored user and token information
-                  this.$store.dispatch('account/token', res.data.token);
+                  window.localStorage.setItem('fluance', JSON.stringify(res.data.token));
+                  this.$store.dispatch('app/loadJwt', {jwt: res.data.token})
                   this.$message.success("Bienvenue " + this.account.user);
                   this.$router.push({ path: '/'})
                 })

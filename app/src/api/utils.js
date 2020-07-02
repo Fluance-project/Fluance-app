@@ -1,11 +1,11 @@
-import state from '../store/'
 export default {
   getStored() {
-    return state.getters['app/getJwt'];
+    return JSON.parse(window.localStorage.getItem('fluance'));
   },
   
   fetchToken() {
-    const local = this.getStored().jwt;
+    const local = this.getStored();
+    console.log(local);
     return 'Bearer '.concat(local);
   }
 }

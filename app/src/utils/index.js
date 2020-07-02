@@ -21,9 +21,9 @@ export function sparseUserFromToken (token) {
 } 
 
 export function authHeader() {
-    let acc = JSON.parse(localStorage.getItem('fluance-data'));
+    let acc = JSON.parse(localStorage.getItem('fluance'));
     if (acc && acc.token) {
-        return { Authorization: 'Bearer ' + acc.token};
+        return { Authorization: 'Bearer ' + acc};
     } else {
         return {};
     }

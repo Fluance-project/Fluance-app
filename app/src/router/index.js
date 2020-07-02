@@ -93,7 +93,7 @@ import { isValidJwt } from '../utils'
 router.beforeEach((to, from, next) => {
     const publicPages = ['/login'];
     const authRequired = !publicPages.includes(to.path);
-    const token = localStorage.getItem('fluance-data');
+    const token = localStorage.getItem('fluance');
     const loggedIn = isValidJwt(token);
     if (authRequired && !loggedIn) {
         return next('/login');

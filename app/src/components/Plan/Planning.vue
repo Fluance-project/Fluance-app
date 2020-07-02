@@ -146,25 +146,23 @@ export default {
     beforeMount() {
       this.$store.dispatch('task/loadTasksByAccount', this.$store.getters['account/accountId'])
       this.$store.dispatch('app/loadRoute', this.$router.currentRoute.name);
+      this.fetchData();
       // this.changeData(this.tasks.tasksByAccount)
       // console.log(this.test)
       // this.$store.dispatch('task/addFieldTask', this.tasks.tasksByAccount)
       // console.log(this.$store.getters['task/tasksModified'])
     },
-    // updated() {
-      // this.$store.dispatch('task/loadTasksByAccount', this.$store.getters['account/accountId'])
-    // },
-    // create() {
-    //   this.fetchData();
-    // },
+    created() {
+    this.$store.dispatch('task/loadTasksByAccount', this.$store.getters['account/accountId'])
+    },
     watch: {
       '$router': 'fetchData'
     },
     computed: {
       ...mapState({
           tasksByAccount: state => state.task.tasksByAccount,
-          // tasksModified: state => state.task.tasksModified,
-          // tasks: state => state.task,
+          tasksModified: state => state.task.tasksModified,
+          tasks: state => state.task,
           member: state => state.member.members
       }),
     },
