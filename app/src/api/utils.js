@@ -5,7 +5,7 @@ export default {
   },
   
   fetchToken() {
-    const local = this.getStored();
+    const local = this.getStored().jwt;
     return 'Bearer '.concat(local);
   }
 }

@@ -165,6 +165,8 @@ export default {
               localStorage.removeItem('user')
             }
             this.$service.account.persist(res.data);
+            // update token
+            this.$store.dispatch('app/loadJwt', {jwt: res.data.token})
             this.$message.success("Bienvenue " + this.account.user);
             this.$router.push({ path: '/'})
           })
