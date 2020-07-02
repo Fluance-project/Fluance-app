@@ -4,7 +4,7 @@
           <a-col :span="24">
             <a-card title="Interventions à venir" :bordered="false" style="margin-top: 24px; margin-bottom: 24px">
                 <!-- <a slot="extra" href="/plannification/make-planning"> -->
-                <router-link slot="extra" :to="{name : 'Planifier une intervention'}">
+                <router-link slot="extra" :to="{path : '/make-planning'}">
                     <a-tag color="#052068">
                         Plannifier une intervention
                     </a-tag>
@@ -15,7 +15,7 @@
                   :data-source="tasksByAccount"
                   :pagination=true>
                   <!-- <span slot="id" slot-scope="text"> -->
-                    <router-link slot="id" slot-scope="text" :to="{name : 'Planifier une intervention'}">
+                    <router-link slot="id" slot-scope="text,record" :to="{path : 'planning/' + record._id.$oid}">
                       {{text}}
                     </router-link>
                   <!-- </span> -->
@@ -68,6 +68,7 @@
 
 <script>
 import { mapState } from 'vuex'
+// import TaskDetail from './TaskDetail.vue'
 
 const typeIntervention = {
     PREVISIONELLE: {
@@ -132,49 +133,6 @@ const columns = [
     //   key: 'operation'
     // },
 ]
-
-// const data = [
-//     {
-//       id: '#136',
-//       equipement: 'Fraiseuse Siements AD45[...]',
-//       type: ['préventive'],
-//       date: '2017-10-03 19:23:12',
-//       assigne: '-',
-//       status: ['Annulé']
-//     },
-//     {
-//       id: '#137',
-//       equipement: 'Fraiseuse Siements AD45[...]',
-//       type: ['corrective'],
-//       date: '2017-10-03 19:23:12',
-//       assigne: 'D. Mirvieux',
-//       status: ['En cours']
-//     },
-//     {
-//       id: '#138',
-//       equipement: 'Fraiseuse Siements AD45[...]',
-//       type: ['prévisonnelle'],
-//       date: '2017-10-03 19:23:12',
-//       assigne: '-',
-//       status: ['En cours']
-//     },
-//     {
-//       id: '#139',
-//       equipement: 'Fraiseuse Siements AD45[...]',
-//       type: ['périodique'],
-//       date: '2017-10-03 19:23:12',
-//       assigne: 'D. Mirvieux',
-//       status: ['Terminé']
-//     },
-//     {
-//       id: '#140',
-//       equipement: 'Fraiseuse Siements AD45[...]',
-//       type: ['conditionelle'],
-//       date: '2017-10-03 19:23:12',
-//       assigne: 'D. Mirvieux',
-//       status: ['Terminé']
-//     },
-// ]
 export default {
     name: "Planning d'intervention",
     data() {
@@ -186,15 +144,21 @@ export default {
       }
     },
     beforeMount() {
+      this.$store.dispatch('task/loadTasksByAccount', this.$store.getters['account/accountId'])
       this.$store.dispatch('app/loadRoute', this.$router.currentRoute.name);
-      // this.$store.dispatch('task/loadTasksByAccount', this.$store.getters['account/accountId'])
       // this.changeData(this.tasks.tasksByAccount)
       // console.log(this.test)
       // this.$store.dispatch('task/addFieldTask', this.tasks.tasksByAccount)
       // console.log(this.$store.getters['task/tasksModified'])
     },
-    updated() {
-      this.$store.dispatch('task/loadTasksByAccount', this.$store.getters['account/accountId'])
+    // updated() {
+      // this.$store.dispatch('task/loadTasksByAccount', this.$store.getters['account/accountId'])
+    // },
+    // create() {
+    //   this.fetchData();
+    // },
+    watch: {
+      '$router': 'fetchData'
     },
     computed: {
       ...mapState({
@@ -205,6 +169,9 @@ export default {
       }),
     },
     methods: {
+      fetchData() {
+        this.$store.dispatch('task/loadTasksByAccount', this.$store.getters['account/accountId'])
+      },
       // changeData(data) {
       //   let dataClone = []
       //   data.forEach(el => dataClone.push(Object.assign({}, el)));

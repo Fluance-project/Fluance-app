@@ -25,6 +25,7 @@ const actions = {
             })
             console.log(tasks)
             commit('SET_TASKS_BY_ACCOUNT', tasks)
+            commit('ADD_FIELD_TASK', tasks)
         })
     },
     addFieldTask ({commit}, tasks) {

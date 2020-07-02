@@ -13,10 +13,10 @@ const actions = {
             commit('SET_MEMBERS', members)
         })
     },
-    loadCurrent ({ commit }, id) {
-        Services.member.getMemberById(id)
+    loadCurrent ({ commit }, payload) {
+        Services.member.getMemberById(payload.account_id, payload.user_id)
         .then((member) => {
-            commit('SET_CURRENT_MEMBER', member)
+            commit('SET_CURRENT_MEMBER', member.user[0])
         })
     },
     deleteMember ({ commit }, data) {

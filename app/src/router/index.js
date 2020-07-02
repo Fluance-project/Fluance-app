@@ -5,6 +5,7 @@ import Login from '../components/Login.vue'
 import Ping from '../components/Ping.vue'
 import Planning from '../components/Plan/Planning.vue'
 import makePlanning from '../components/Plan/Make-Planning.vue'
+import TaskDetail from '../components/Plan/TaskDetail.vue'
 import Equipement from '../components/Equipment/Equipment.vue'
 import EquipementDetail from '../components/Equipment/EquipmentDetail.vue'
 import Module from '../components/Equipment/Module.vue'
@@ -58,6 +59,14 @@ const router = new Router({
             path: '/planning',
             name: "Planning d'intervention",
             component: Planning,
+            meta: {
+                category: "Planification"
+            }
+        },
+        {
+            path: '/planning/:id',
+            name: "Detail d'intervention",
+            component: TaskDetail,
             meta: {
                 category: "Planification"
             }

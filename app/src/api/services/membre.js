@@ -9,6 +9,7 @@ export default class MemberService {
     getMembersByAccount(id) {
         return new Promise((resolve, reject) => {
             const path = this.dbUrl + '/api/v1/account/'+ id;
+            console.log(utils.fetchToken())
             axios({
                 url: path,
                 method: 'get',

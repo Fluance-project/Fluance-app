@@ -1,7 +1,7 @@
 <template>
     <a-layout id="fluance" style="min-height: 100vh">
       <a-layout-sider collapsible v-model="collapsed" width="256">
-        <router-link :to="{name:'Tableau-de-bord'}">
+        <router-link :to="{path:'/'}">
           <Logo :collapsed="collapsed" />
         </router-link>
         <a-menu theme="dark" :defaultSelectedKeys="['1']" mode="inline" v-if="isLoggedOn()">
